@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Details | FilmLog</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg-dashboard">
+
+    <!-- NAVBAR -->
+    <nav class="glass-nav">
+        <h1>🎬 FilmLog</h1>
+        <div class="nav-actions">
+            <a href="dashboard.html">← Back</a>
+        </div>
+    </nav>
+
+    <!-- CONTENT -->
+    <main class="dashboard-main">
+
+        <div class="film-card" style="max-width:650px;margin:auto;">
+
+            <h3 id="title"></h3>
+            <span class="genre" id="genre"></span>
+
+            <div class="rating" id="rating"></div>
+
+            <p class="review" id="existingReview"></p>
+            <span class="date" id="date"></span>
+
+            <hr style="margin:20px 0;opacity:0.2;">
+
+            <!-- WRITE REVIEW -->
+            <h4 style="margin-bottom:10px;">✍️ Write / Edit Your Review</h4>
+
+            <textarea id="reviewBox"
+                      placeholder="What did you think about this movie?"
+                      style="width:100%;height:100px;"></textarea>
+
+            <button class="btn-login" style="margin-top:12px;"
+                    onclick="saveReview()">
+                Save Review
+            </button>
+
+            <p id="statusMsg" style="margin-top:10px;color:#00f5ff;"></p>
+
+        </div>
+
+    </main>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+
+        const title = params.get("title");
+        const genre = params.get("genre");
+        const ratingValue = params.get("rating");
+        const date = params.get("date");
+
+        document.getElementById("title").textContent = title;
+        document.getElementById("genre").textContent = genre;
+        document.getElementById("date").textContent = "Watched: " + date;
+
+        document.getElementById("rating").textContent =
+            "★".repeat(ratingValue) + "☆".repeat(5 - ratingValue);
+
+        /* ===== LOCAL STORAGE REVIEW ===== */
+
+        const storageKey = "review_" + title;
+
+        // Load saved review (if any)
+        const savedReview = localStorage.getItem(storageKey);
+        if (savedReview) {
+            document.getElementById("existingReview").textContent = savedReview;
+            document.getElementById("reviewBox").value = savedReview;
+        }
+
+        function saveReview() {
+            const reviewText = document.getElementById("reviewBox").value;
+
+            localStorage.setItem(storageKey, reviewText);
+
+            document.getElementById("existingReview").textContent = reviewText;
+            document.getElementById("statusMsg").textContent =
+                "✅ Review saved successfully!";
+        }
+    </script>
+
+</body>
+</html>
+
