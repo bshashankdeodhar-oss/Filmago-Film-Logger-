@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Film Log | FilmLog</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .page-container {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-box {
+            background-color: #ffffff;
+            padding: 35px;
+            width: 420px;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .form-box h2 {
+            text-align: center;
+            color: #2c5364;
+            margin-bottom: 20px;
+        }
+
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        textarea {
+            resize: none;
+            height: 80px;
+        }
+
+        .btn-group {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .btn-group a {
+            text-decoration: none;
+            color: #2c5364;
+            font-weight: bold;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-container">
+        <div class="form-box">
+            <h2>Add Film Log</h2>
+
+            <form>
+                <div class="form-group">
+                    <label for="movie">Select Movie</label>
+                    <select id="movie" name="movie" required>
+                        <option value="">-- Choose Movie --</option>
+                        <option>Inception</option>
+                        <option>Parasite</option>
+                        <option>Interstellar</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="rating">Rating (1–5)</label>
+                    <select id="rating" name="rating" required>
+                        <option value="">-- Select Rating --</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="date">Watched On</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="review">Review</label>
+                    <textarea id="review" name="review" placeholder="Write a short review..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-login">Add Log</button>
+
+                <div class="btn-group">
+                    <a href="dashboard.html">← Back to Dashboard</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

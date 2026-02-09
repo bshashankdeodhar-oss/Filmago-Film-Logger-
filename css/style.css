@@ -1,0 +1,287 @@
+/* ===========================
+   GLOBAL RESET & VARIABLES
+   =========================== */
+
+:root {
+    --primary: #2c5364;
+    --primary-dark: #203a43;
+    --bg-gradient: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    --text-dark: #333;
+    --text-light: #666;
+    --white: #ffffff;
+    --radius: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ===========================
+   BODY
+   =========================== */
+
+body {
+    min-height: 100vh;
+    background: var(--bg-gradient);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-dark);
+}
+
+/* ===========================
+   AUTH CONTAINERS (LOGIN / REGISTER)
+   =========================== */
+
+.login-container {
+    background-color: var(--white);
+    padding: 40px;
+    width: 360px;
+    border-radius: var(--radius);
+    text-align: center;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+.login-container h1 {
+    color: var(--primary);
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+}
+
+.tagline {
+    font-size: 14px;
+    color: var(--text-light);
+    margin-bottom: 28px;
+}
+
+/* ===========================
+   FORMS
+   =========================== */
+
+.form-group {
+    text-align: left;
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 11px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    transition: border 0.3s, box-shadow 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(44, 83, 100, 0.15);
+}
+
+textarea {
+    resize: none;
+}
+
+/* ===========================
+   BUTTONS
+   =========================== */
+
+.btn-login {
+    width: 100%;
+    padding: 11px;
+    margin-top: 10px;
+    background: var(--primary);
+    color: var(--white);
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.3s;
+}
+
+.btn-login:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+/* ===========================
+   LINKS
+   =========================== */
+
+.register-link,
+.btn-group {
+    margin-top: 18px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.register-link a,
+.btn-group a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.register-link a:hover,
+.btn-group a:hover {
+    text-decoration: underline;
+}
+
+/* ===========================
+   DASHBOARD
+   =========================== */
+
+.navbar {
+    width: 100%;
+    background-color: var(--primary);
+    padding: 15px 30px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+}
+
+.navbar h2 {
+    color: var(--white);
+    letter-spacing: 1px;
+}
+
+.nav-links a {
+    color: var(--white);
+    margin-left: 20px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+}
+
+.dashboard-container {
+    margin-top: 100px;
+    padding: 30px;
+    width: 90%;
+    max-width: 1100px;
+}
+
+.dashboard-container h3 {
+    color: var(--primary);
+    margin-bottom: 15px;
+}
+
+/* ===========================
+   TABLES
+   =========================== */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--white);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+table th,
+table td {
+    padding: 14px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+table th {
+    background-color: var(--primary);
+    color: var(--white);
+}
+
+table tr:hover {
+    background-color: #f2f6f8;
+}
+
+/* ===========================
+   ACTION BUTTONS
+   =========================== */
+
+.action-buttons {
+    margin-top: 20px;
+}
+
+.action-buttons a {
+    display: inline-block;
+    margin-right: 15px;
+    padding: 10px 16px;
+    background-color: var(--primary);
+    color: var(--white);
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.action-buttons a:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+/* ===========================
+   PAGE CONTAINERS (ADD MOVIE / LOG)
+   =========================== */
+
+.page-container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-box {
+    background-color: var(--white);
+    padding: 40px;
+    width: 420px;
+    border-radius: var(--radius);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+.form-box h2 {
+    text-align: center;
+    color: var(--primary);
+    margin-bottom: 22px;
+}
+
+/* ===========================
+   ANIMATIONS
+   =========================== */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
