@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineLog | Search & Add</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --accent: #FF4500;
+            --card: #111111;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: white;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Noise Texture Overlay */
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            pointer-events: none;
+            opacity: 0.05;
+            mix-blend-mode: overlay;
+            background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+        }
+
+        /* Movie Poster Hover Effects */
+        .movie-card {
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .movie-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(255, 69, 0, 0.1);
+            border-color: rgba(255, 69, 0, 0.5);
+        }
+
+        .search-input-wrapper:focus-within {
+            box-shadow: 0 0 30px rgba(255, 69, 0, 0.15);
+            border-color: rgba(255, 69, 0, 0.5);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Rating Stars Animation */
+        .star-rating iconify-icon {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .star-rating iconify-icon:hover {
+            transform: scale(1.2);
+            color: #FF4500;
+        }
+
+        .star-rating iconify-icon.active {
+            color: #FF4500;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="min-h-screen bg-[#050505] selection:bg-[#FF4500] selection:text-white pb-20">
+        <!-- Global Noise Overlay -->
+        <div class="noise-overlay"></div>
+
+        <!-- Navigation -->
+        <nav id="main-nav"
+            class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-4 bg-[#050505]/90 backdrop-blur-md border-b border-white/5">
+            <div class="container mx-auto px-6 flex items-center justify-between">
+                <a href="index.html" class="text-2xl font-bold tracking-tighter font-serif">
+                    CineLog.
+                </a>
+
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="search.html"
+                        class="text-sm text-white hover:text-white transition-colors duration-300 border-b border-[#FF4500] pb-1">Search</a>
+                    <a href="profile.html"
+                        class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Profile</a>
+                    <a href="timeline.html"
+                        class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Timeline</a>
+                </div>
+
+                <a href="profile.html"
+                    class="w-10 h-10 rounded-full overflow-hidden border border-white/20 hover:border-[#FF4500] transition-colors">
+                    <img src="https://ui-avatars.com/api/?name=User&background=111&color=fff" alt="User"
+                        class="w-full h-full object-cover">
+                </a>
+            </div>
+        </nav>
+
+        <!-- Search Header -->
+        <div class="pt-32 pb-12">
+            <div class="container mx-auto px-6 max-w-4xl">
+                <h1 class="text-4xl md:text-6xl font-serif text-center mb-4">Find a Film</h1>
+                <p class="text-gray-500 text-center text-lg font-light mb-12">Search the database to read reviews or log
+                    a new entry.</p>
+
+                <div
+                    class="relative search-input-wrapper rounded-2xl bg-[#111] border border-white/10 transition-all duration-300 flex items-center px-6 py-4">
+                    <iconify-icon icon="lucide:search" class="text-gray-400 text-2xl mr-4"></iconify-icon>
+                    <input type="text" id="search-input" placeholder="Search by title, director, or actor..."
+                        class="w-full bg-transparent border-none outline-none text-white text-xl font-light placeholder-gray-600">
+                    <div id="search-spinner" class="hidden">
+                        <iconify-icon icon="lucide:loader-2"
+                            class="text-[#FF4500] text-2xl animate-spin ml-4"></iconify-icon>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap gap-3 mt-6 justify-center">
+                    <button
+                        class="px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-xs text-gray-400 hover:text-white hover:bg-white/10 transition-colors">Trending</button>
+                    <button
+                        class="px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-xs text-gray-400 hover:text-white hover:bg-white/10 transition-colors">New
+                        Releases</button>
+                    <button
+                        class="px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-xs text-gray-400 hover:text-white hover:bg-white/10 transition-colors">A24
+                        Films</button>
+                    <button
+                        class="px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-xs text-gray-400 hover:text-white hover:bg-white/10 transition-colors">Highest
+                        Rated</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Results Grid -->
+        <div class="container mx-auto px-6 max-w-6xl">
+            <p id="results-count" class="text-gray-500 text-sm mb-6 hidden">Showing top results for "Blade Runner"</p>
+
+            <div id="search-results" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Populated via JS -->
+            </div>
+
+            <!-- Default Empty State -->
+            <div id="empty-state" class="text-center py-20 flex flex-col items-center opacity-30">
+                <iconify-icon icon="lucide:film" class="text-6xl mb-6"></iconify-icon>
+                <p class="text-xl font-light">Your search results will appear here.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Log Film Modal -->
+    <div id="log-modal"
+        class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/80 backdrop-blur-md p-4 overflow-y-auto">
+        <div class="bg-[#111] border border-white/10 rounded-2xl max-w-2xl w-full shadow-2xl overflow-hidden my-auto transform scale-95 opacity-0 transition-all duration-300"
+            id="log-modal-content">
+
+            <!-- Modal Header with Movie Banner -->
+            <div class="relative h-48 bg-gray-900 border-b border-white/5">
+                <img id="modal-backdrop" src="" class="w-full h-full object-cover opacity-30 mix-blend-screen"
+                    alt="Backdrop">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#111] to-transparent"></div>
+                <button id="close-modal"
+                    class="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/50 flex items-center justify-center hover:bg-white/10 transition-colors">
+                    <iconify-icon icon="lucide:x" class="text-white"></iconify-icon>
+                </button>
+
+                <div class="absolute -bottom-16 left-8 flex items-end gap-6">
+                    <img id="modal-poster" src=""
+                        class="w-24 md:w-32 aspect-[2/3] object-cover rounded-lg shadow-2xl border border-white/10"
+                        alt="Poster">
+                    <div class="pb-16 md:pb-6 relative z-10 w-full pr-8">
+                        <h2 id="modal-title"
+                            class="text-2xl md:text-4xl font-serif font-medium leading-tight mb-1 drop-shadow-md">Movie
+                            Title</h2>
+                        <p id="modal-year" class="text-gray-400 text-sm">2024</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Form Area -->
+            <div class="p-8 pt-20">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Left Col: Rating & Date -->
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-2 font-medium">Your Rating</label>
+                            <div class="flex gap-1 star-rating group" id="modal-rating">
+                                <iconify-icon data-val="1" icon="lucide:star"
+                                    class="text-2xl text-gray-600 cursor-pointer"></iconify-icon>
+                                <iconify-icon data-val="2" icon="lucide:star"
+                                    class="text-2xl text-gray-600 cursor-pointer"></iconify-icon>
+                                <iconify-icon data-val="3" icon="lucide:star"
+                                    class="text-2xl text-gray-600 cursor-pointer"></iconify-icon>
+                                <iconify-icon data-val="4" icon="lucide:star"
+                                    class="text-2xl text-gray-600 cursor-pointer"></iconify-icon>
+                                <iconify-icon data-val="5" icon="lucide:star"
+                                    class="text-2xl text-gray-600 cursor-pointer"></iconify-icon>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-2 font-medium">Date Watched</label>
+                            <div class="relative">
+                                <iconify-icon icon="lucide:calendar"
+                                    class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"></iconify-icon>
+                                <input type="date" id="modal-date"
+                                    class="w-full bg-[#1a1a1a] border border-white/5 rounded-lg pl-10 pr-4 py-2.5 text-white focus:outline-none focus:border-[#FF4500] text-sm [color-scheme:dark]">
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3">
+                            <button id="btn-like"
+                                class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:border-red-500 hover:text-red-500 transition-colors group">
+                                <iconify-icon icon="lucide:heart"
+                                    class="text-gray-500 group-hover:text-red-500 transition-colors"></iconify-icon>
+                            </button>
+                            <span class="text-sm text-gray-500">Like this film?</span>
+                        </div>
+                    </div>
+
+                    <!-- Right Col: Review -->
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-2 font-medium">Review (Optional)</label>
+                        <textarea id="modal-review" rows="6" placeholder="Write your thoughts..."
+                            class="w-full bg-[#1a1a1a] border border-white/5 rounded-xl p-4 text-white focus:outline-none focus:border-[#FF4500] resize-none text-sm placeholder-gray-600 leading-relaxed"></textarea>
+                    </div>
+                </div>
+
+                <div class="mt-8 pt-6 border-t border-white/5 flex gap-4 justify-end">
+                    <button id="cancel-log"
+                        class="px-6 py-2.5 rounded-lg text-sm text-gray-400 hover:text-white transition-colors">Cancel</button>
+                    <button
+                        class="px-8 py-2.5 rounded-lg bg-[#FF4500] hover:bg-orange-600 text-white text-sm font-medium transition-colors shadow-[0_0_15px_rgba(255,69,0,0.3)] hover:shadow-[0_0_20px_rgba(255,69,0,0.5)]">
+                        Save to Diary
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="movies.js"></script>
+    <script src="tmdb.js"></script>
+    <script>
+        // Set today's date in specific input
+        document.getElementById('modal-date').valueAsDate = new Date();
+
+        // Star Rating Logic
+        const stars = document.querySelectorAll('#modal-rating iconify-icon');
+        let currentRating = 0;
+
+        stars.forEach(star => {
+            star.addEventListener('mouseenter', () => {
+                const val = parseInt(star.getAttribute('data-val'));
+                highlightStars(val);
+            });
+            star.addEventListener('mouseleave', () => {
+                highlightStars(currentRating);
+            });
+            star.addEventListener('click', () => {
+                currentRating = parseInt(star.getAttribute('data-val'));
+                highlightStars(currentRating);
+            });
+        });
+
+        function highlightStars(count) {
+            stars.forEach(s => {
+                const val = parseInt(s.getAttribute('data-val'));
+                if (val <= count) {
+                    s.classList.add('active');
+                    s.setAttribute('icon', 'lucide:star');
+                    s.classList.add('text-[#FF4500]');
+                    s.classList.remove('text-gray-600');
+                } else {
+                    s.classList.remove('active');
+                    s.classList.remove('text-[#FF4500]');
+                    s.classList.add('text-gray-600');
+                }
+            });
+        }
+
+        // Like button toggle
+        const btnLike = document.getElementById('btn-like');
+        let isLiked = false;
+        btnLike.addEventListener('click', () => {
+            isLiked = !isLiked;
+            btnLike.classList.toggle('border-red-500');
+            btnLike.classList.toggle('bg-red-500/10');
+            const icon = btnLike.querySelector('iconify-icon');
+            if (isLiked) {
+                icon.classList.remove('text-gray-500');
+                icon.classList.add('text-red-500');
+                icon.setAttribute('icon', 'mingcute:heart-fill');
+            } else {
+                icon.classList.add('text-gray-500');
+                icon.classList.remove('text-red-500');
+                icon.setAttribute('icon', 'lucide:heart');
+            }
+        });
+
+        // Modal Logic
+        const modal = document.getElementById('log-modal');
+        const modalContent = document.getElementById('log-modal-content');
+
+        function openModal(movie) {
+            document.getElementById('modal-title').textContent = movie.title;
+            document.getElementById('modal-year').textContent = movie.year;
+            document.getElementById('modal-poster').src = movie.poster;
+            document.getElementById('modal-backdrop').src = movie.backdrop || movie.poster;
+
+            // Reset form
+            currentRating = 0;
+            highlightStars(0);
+            document.getElementById('modal-review').value = '';
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            // Small delay for transition
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+
+        document.getElementById('close-modal').addEventListener('click', closeModal);
+        document.getElementById('cancel-log').addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+
+        // Search Simulation Logic
+        const searchInput = document.getElementById('search-input');
+        const searchSpinner = document.getElementById('search-spinner');
+        const resultsContainer = document.getElementById('search-results');
+        const emptyState = document.getElementById('empty-state');
+        const resultsCountStr = document.getElementById('results-count');
+
+
+
+        let typingTimer;
+        const doneTypingInterval = 600;
+
+        searchInput.addEventListener('input', () => {
+            clearTimeout(typingTimer);
+            const query = searchInput.value.trim();
+
+            if (query.length > 0) {
+                searchSpinner.classList.remove('hidden');
+                typingTimer = setTimeout(() => performSearch(query), doneTypingInterval);
+            } else {
+                searchSpinner.classList.add('hidden');
+                resultsContainer.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                resultsCountStr.classList.add('hidden');
+            }
+        });
+
+        async function performSearch(query) {
+
+            // Try TMDB first
+            let results = await searchTMDB(query);
+
+            if (!results) {
+                console.log("TMDB Failed or no key. Fallback to mock DB search");
+                const q = query.toLowerCase();
+                results = mockDatabase.filter(m => m.title.toLowerCase().includes(q) || (m.director && m.director.toLowerCase().includes(q)));
+            }
+
+            searchSpinner.classList.add('hidden');
+            emptyState.classList.add('hidden');
+            resultsContainer.innerHTML = '';
+
+            if (!results || results.length === 0) {
+                resultsContainer.innerHTML = `<div class="col-span-full py-12 text-center text-gray-500">No results found for "${query}"</div>`;
+                resultsCountStr.classList.add('hidden');
+                return;
+            }
+
+            resultsCountStr.classList.remove('hidden');
+            resultsCountStr.textContent = `Showing ${results.length} result(s) for "${query}"`;
+
+            results.forEach((movie, index) => {
+                const card = document.createElement('div');
+                card.className = 'bg-[#111] border border-white/5 rounded-xl p-4 flex gap-4 movie-card cursor-pointer items-start';
+                card.style.animation = `fadeInUp ${0.1 * index}s ease forwards`;
+
+                // If TMDB didn't provide director it might be missing without credits call.
+                const directorText = movie.director ? ` • Directed by ${movie.director}` : '';
+
+                card.innerHTML = `
+                    <div class="w-24 shrink-0 rounded-lg overflow-hidden shadow-lg border border-white/10">
+                        <img src="${movie.poster}" alt="${movie.title}" class="w-full h-auto object-cover aspect-[2/3]">
+                    </div>
+                    <div class="flex flex-col flex-grow py-1">
+                        <a href="details.html?id=${movie.id}" class="text-xl font-serif text-white hover:text-[#FF4500] transition-colors leading-tight mb-1" onclick="event.stopPropagation()">${movie.title}</a>
+                        <p class="text-sm text-gray-500 mb-2">${movie.year}${directorText}</p>
+                        <p class="text-xs text-gray-400 line-clamp-2 leading-relaxed mb-4">${movie.desc}</p>
+                        <div class="mt-auto self-start">
+                            <button class="log-btn px-4 py-1.5 bg-white/5 hover:bg-[#FF4500] hover:text-white hover:border-[#FF4500] border border-white/10 rounded-md text-xs font-medium transition-colors flex items-center gap-2">
+                                <iconify-icon icon="lucide:plus"></iconify-icon> Log Film
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                // Add Log functionality
+                const logBtn = card.querySelector('.log-btn');
+                logBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openModal(movie);
+                });
+
+                // Navigate to details on card click
+                card.addEventListener('click', () => {
+                    window.location.href = 'details.html?id=' + movie.id;
+                });
+
+                resultsContainer.appendChild(card);
+            });
+        }
+    </script>
+</body>
+
+</html>

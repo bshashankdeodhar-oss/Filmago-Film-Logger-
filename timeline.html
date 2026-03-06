@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineLog | Cinematic Timeline</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --accent: #FF4500;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: white;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Noise Texture Overlay */
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            pointer-events: none;
+            opacity: 0.05;
+            mix-blend-mode: overlay;
+            background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+        }
+
+        /* Timeline Specific Styles */
+        .timeline-container {
+            position: relative;
+            max-w: 1200px;
+            margin: 0 auto;
+            padding: 40px 0;
+        }
+
+        /* Central Line */
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            background-color: rgba(255, 255, 255, 0.1);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -1px;
+            z-index: 1;
+        }
+
+        .timeline-node {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .timeline-node.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Node Positioning */
+        .timeline-node.left {
+            left: 0;
+            text-align: right;
+        }
+
+        .timeline-node.right {
+            left: 50%;
+        }
+
+        /* The Dot */
+        .timeline-node::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background-color: #050505;
+            border: 3px solid #FF4500;
+            top: 40px;
+            border-radius: 50%;
+            z-index: 2;
+            box-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .timeline-node:hover::after {
+            transform: scale(1.3);
+            background-color: #FF4500;
+        }
+
+        .timeline-node.left::after {
+            right: -8px;
+        }
+
+        .timeline-node.right::after {
+            left: -8px;
+        }
+
+        /* Hover Cards */
+        .timeline-card {
+            background: #111;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 24px;
+            display: inline-block;
+            text-align: left;
+            width: 100%;
+            max-w: 480px;
+            position: relative;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .timeline-card:hover {
+            border-color: rgba(255, 69, 0, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 69, 0, 0.1);
+        }
+
+        /* Connector Line from Card to Node Dot */
+        .timeline-node.left .timeline-card::before {
+            content: " ";
+            height: 1px;
+            width: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            position: absolute;
+            top: 30px;
+            right: -40px;
+            z-index: 0;
+        }
+
+        .timeline-node.right .timeline-card::before {
+            content: " ";
+            height: 1px;
+            width: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            position: absolute;
+            top: 30px;
+            left: -40px;
+            z-index: 0;
+        }
+
+        /* Date Label outside card */
+        .timeline-date {
+            position: absolute;
+            top: 25px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: #888;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .timeline-node.left .timeline-date {
+            right: -140px;
+        }
+
+        .timeline-node.right .timeline-date {
+            left: -140px;
+        }
+
+        /* Mobile Adjustments */
+        @media screen and (max-width: 768px) {
+            .timeline-container::after {
+                left: 31px;
+            }
+
+            .timeline-node {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+                text-align: left;
+            }
+
+            .timeline-node.left,
+            .timeline-node.right {
+                left: 0;
+            }
+
+            .timeline-node.left::after,
+            .timeline-node.right::after {
+                left: 23px;
+            }
+
+            .timeline-node.left .timeline-card::before,
+            .timeline-node.right .timeline-card::before {
+                left: -30px;
+                width: 30px;
+            }
+
+            .timeline-date {
+                position: relative;
+                top: 0;
+                left: 0 !important;
+                right: 0 !important;
+                display: block;
+                margin-bottom: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="min-h-screen bg-[#050505] selection:bg-[#FF4500] selection:text-white pb-32">
+        <div class="noise-overlay"></div>
+
+        <!-- Navigation -->
+        <nav id="main-nav"
+            class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-4 bg-[#050505]/90 backdrop-blur-md border-b border-white/5">
+            <div class="container mx-auto px-6 flex items-center justify-between">
+                <a href="index.html" class="text-2xl font-bold tracking-tighter font-serif">
+                    CineLog.
+                </a>
+
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="search.html"
+                        class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Search</a>
+                    <a href="profile.html"
+                        class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Profile</a>
+                    <a href="timeline.html"
+                        class="text-sm text-white hover:text-white transition-colors duration-300 border-b border-[#FF4500] pb-1">Timeline</a>
+                </div>
+
+                <a href="profile.html"
+                    class="w-10 h-10 rounded-full overflow-hidden border border-white/20 hover:border-[#FF4500] transition-colors">
+                    <img src="https://ui-avatars.com/api/?name=User&background=111&color=fff" alt="User"
+                        class="w-full h-full object-cover">
+                </a>
+            </div>
+        </nav>
+
+        <!-- Header -->
+        <div class="pt-40 pb-16 text-center px-6">
+            <h1 class="text-5xl md:text-7xl font-serif mb-6">Viewing History</h1>
+            <p class="text-xl text-gray-500 font-light max-w-2xl mx-auto">A chronological journey through your cinematic
+                experiences, mapped perfectly against time.</p>
+        </div>
+
+        <!-- Timeline Container -->
+        <div class="timeline-container px-6" id="timeline">
+
+            <!-- Generate Timeline Nodes via JS or statically. Statically here for illustration -->
+
+            <!-- Node 1 -->
+            <div class="timeline-node left">
+                <div class="timeline-date hidden md:block">Oct 29</div>
+                <div class="timeline-card inline-block group cursor-pointer" data-id="335984">
+                    <p class="md:hidden text-[#FF4500] text-xs font-bold tracking-widest uppercase mb-2">Oct 29, 2024
+                    </p>
+                    <div class="flex gap-4">
+                        <div
+                            class="w-20 shrink-0 rounded-md overflow-hidden aspect-[2/3] border border-white/10 shadow-lg">
+                            <img src="https://image.tmdb.org/t/p/w200/gajva2L0rPYkEWjzgFlBXCAVBE5.jpg"
+                                class="w-full h-full object-cover" alt="Poster">
+                        </div>
+                        <div class="flex flex-col justify-center">
+                            <h3 class="text-xl font-serif text-white group-hover:text-[#FF4500] transition-colors mb-1">
+                                Blade Runner 2049</h3>
+                            <div class="flex items-center gap-1 mb-3 text-[#FF4500] text-sm">
+                                <iconify-icon icon="lucide:star"></iconify-icon>
+                                <iconify-icon icon="lucide:star"></iconify-icon>
+                                <iconify-icon icon="lucide:star"></iconify-icon>
+                                <iconify-icon icon="lucide:star"></iconify-icon>
+                                <iconify-icon icon="lucide:star" class="text-gray-700"></iconify-icon>
+                            </div>
+                            <p class="text-sm text-gray-400 font-light line-clamp-2">Re-watched the masterpiece. The
+                                neon dystopia feels more immersive every time.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Node 2 -->
+            <div class="timeline-node right mt-8 md:-mt-16">
+                <div class="timeline-date hidden md:block">Oct 15</div>
+                <div class="timeline-card inline-block group cursor-pointer" data-id="792307">
+                    <p class="md:hidden text-[#FF4500] text-xs font-bold tracking-widest uppercase mb-2">Oct 15, 2024
+                    </p>
+                    <div class="flex gap-4">
+                        <div
+                            class="w-20 shrink-0 rounded-md overflow-hidden aspect-[2/3] border border-white/10 shadow-lg">
+                            <img src="https://image.tmdb.org/t/p/w200/kCGlIMHnOm8PhnOIdXPr1jxW2n2.jpg"
+                                class="w-full h-full object-cover" alt="Poster">
+                        </div>
+                        <div class="flex flex-col justify-center">
+                            <h3 class="text-xl font-serif text-white group-hover:text-[#FF4500] transition-colors mb-1">
+                                Poor Things</h3>
+                            <div class="flex items-center gap-1 mb-3 text-[#FF4500] text-sm">
+                                <iconify-icon icon="lucide:star"></iconify-icon>
+                                <iconify-icon icon="lucide:star"></iconify-icon>
+                                <iconify-icon icon="lucide:star"></iconify-icon>
+                                <iconify-icon icon="lucide:star"></iconify-icon>
+                                <iconify-icon icon="lucide:star"></iconify-icon>
+                            </div>
+                            <p class="text-sm text-gray-400 font-light line-clamp-2">Emma Stone's performance is
+                                legendary. Bizarre, beautiful, and absolutely genius.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Node 3 -->
+            <div class="timeline-node left mt-8 md:-mt-16">
+                <div class="timeline-date hidden md:block">Sep 30</div>
+                <div class="timeline-card inline-block group cursor-pointer" data-id="872585">
+                    <p class="md:hidden text-[#FF4500] text-xs font-bold tracking-widest uppercase mb-2">Sep 30, 2024
+                    </p>
+                    <div class="flex gap-4">
+                        <div
+                            class="w-20 shrink-0 rounded-md overflow-hidden aspect-[2/3] border border-white/10 shadow-lg">
+                            <img src="https://image.tmdb.org/t/p/w200/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg"
+                                class="w-full h-full object-cover" alt="Poster">
+                        </div>
+                        <div class="flex flex-col justify-center">
+                            <h3 class="text-xl font-serif text-white group-hover:text-[#FF4500] transition-colors mb-1">
+                                Oppenheimer</h3>
+                            <div class="flex items-center gap-1 mb-3 text-[#FF4500] text-sm">
+                                <iconify-icon icon="lucide:star"></iconify-icon>
+                                <iconify-icon icon="lucide:star"></iconify-icon>
+                                <iconify-icon icon="lucide:star"></iconify-icon>
+                                <iconify-icon icon="lucide:star"></iconify-icon>
+                                <iconify-icon icon="lucide:star" class="text-gray-700"></iconify-icon>
+                            </div>
+                            <p class="text-sm text-gray-400 font-light line-clamp-2">Nolan does it again. The auditory
+                                experience in IMAX was unforgettable.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Year Marker -->
+            <div class="timeline-node left mt-16 md:mt-8 w-full !text-center flex justify-center pb-8 !opacity-100 !transform-none"
+                style="left:0;">
+                <div
+                    class="bg-black border border-white/20 text-white/50 px-6 py-2 rounded-full font-serif mx-auto z-10 relative text-xl">
+                    Early 2024
+                </div>
+            </div>
+
+            <!-- Node 4 -->
+            <div class="timeline-node right mt-8 md:-mt-8">
+                <div class="timeline-date hidden md:block">Feb 14</div>
+                <div class="timeline-card inline-block group cursor-pointer" data-id="1160164">
+                    <p class="md:hidden text-[#FF4500] text-xs font-bold tracking-widest uppercase mb-2">Feb 14, 2024
+                    </p>
+                    <div class="flex gap-4">
+                        <div
+                            class="w-20 shrink-0 rounded-md overflow-hidden aspect-[2/3] border border-white/10 shadow-lg">
+                            <img src="https://image.tmdb.org/t/p/w200/k3waqVXSnvCZWfJYNtdamTgTtTA.jpg"
+                                class="w-full h-full object-cover" alt="Poster">
+                        </div>
+                        <div class="flex flex-col justify-center">
+                            <h3 class="text-xl font-serif text-white group-hover:text-[#FF4500] transition-colors mb-1">
+                                Past Lives</h3>
+                            <div class="flex items-center gap-1 mb-3 text-[#FF4500] text-sm">
+                                <iconify-icon icon="lucide:star"></iconify-icon>
+                                <iconify-icon icon="lucide:star"></iconify-icon>
+                                <iconify-icon icon="lucide:star"></iconify-icon>
+                                <iconify-icon icon="lucide:star"></iconify-icon>
+                                <iconify-icon icon="lucide:star"></iconify-icon>
+                            </div>
+                            <p class="text-sm text-gray-400 font-light line-clamp-2">The most heartbreaking, mature, and
+                                beautiful romance film in years.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="movies.js"></script>
+    <script src="tmdb.js"></script>
+    <script>
+        // Scroll Animation for Timeline Nodes
+        const timelineObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.2, // Trigger when 20% visible
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        document.querySelectorAll('.timeline-node').forEach(node => {
+            timelineObserver.observe(node);
+        });
+
+        // Navigation linking & Hydration
+        document.querySelectorAll('.timeline-card').forEach(async (card) => {
+            const id = card.getAttribute('data-id');
+
+            // Hydrate with real TMDB data
+            if (id) {
+                const movie = await getMovieDetailsAPI(id);
+                if (movie) {
+                    const img = card.querySelector('img');
+                    const title = card.querySelector('h3');
+                    if (img) img.src = movie.poster;
+                    if (title) title.textContent = movie.title;
+                }
+            }
+
+            card.addEventListener('click', () => {
+                window.location.href = 'details.html?id=' + id;
+            });
+        });
+    </script>
+</body>
+
+</html>

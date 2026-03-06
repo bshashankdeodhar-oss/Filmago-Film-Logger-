@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineLog | Blade Runner 2049</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --accent: #FF4500;
+            --card: #111111;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: white;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Noise Texture Overlay */
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            pointer-events: none;
+            opacity: 0.05;
+            mix-blend-mode: overlay;
+            background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+        }
+
+        /* Hero Backdrop Masking */
+        .hero-mask {
+            mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+        }
+
+        /* Custom Scrollbar for horizontal lists */
+        .hide-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hide-scroll {
+            -ms-overflow-style: none;
+            /* IE and Edge */
+            scrollbar-width: none;
+            /* Firefox */
+        }
+
+        /* Stats Animation */
+        .stat-ring {
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: fillRing 1.5s ease-out forwards 0.5s;
+        }
+
+        @keyframes fillRing {
+            to {
+                stroke-dashoffset: 12;
+            }
+
+            /* 88% rating mock */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="min-h-screen bg-[#050505] selection:bg-[#FF4500] selection:text-white pb-32">
+        <!-- Global Noise Overlay -->
+        <div class="noise-overlay"></div>
+
+        <!-- Navigation -->
+        <nav id="main-nav"
+            class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-4 bg-transparent hover:bg-[#050505]/90 hover:backdrop-blur-md group border-b border-transparent hover:border-white/5">
+            <div class="container mx-auto px-6 flex items-center justify-between">
+                <a href="index.html" class="text-2xl font-bold tracking-tighter font-serif drop-shadow-lg">
+                    CineLog.
+                </a>
+
+                <div class="hidden md:flex items-center space-x-8 drop-shadow-md">
+                    <a href="search.html"
+                        class="text-sm text-gray-300 hover:text-white transition-colors duration-300">Search</a>
+                    <a href="profile.html"
+                        class="text-sm text-gray-300 hover:text-white transition-colors duration-300">Profile</a>
+                    <a href="timeline.html"
+                        class="text-sm text-gray-300 hover:text-white transition-colors duration-300">Timeline</a>
+                </div>
+
+                <a href="profile.html"
+                    class="w-10 h-10 rounded-full overflow-hidden border border-white/20 hover:border-[#FF4500] transition-colors shadow-lg">
+                    <img src="https://ui-avatars.com/api/?name=User&background=111&color=fff" alt="User"
+                        class="w-full h-full object-cover">
+                </a>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <div class="relative w-full h-[60vh] md:h-[75vh] hero-mask">
+            <img id="hero-backdrop" src="https://image.tmdb.org/t/p/original/ilRyazdflIgEqO5VDlsmQaTfqts.jpg"
+                alt="Backdrop" class="w-full h-full object-cover object-top opacity-60">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/40 to-transparent"></div>
+        </div>
+
+        <!-- Main Content (Pulled up into the Hero) -->
+        <div class="container mx-auto px-6 max-w-6xl relative z-10 -mt-32 md:-mt-48">
+            <div class="flex flex-col md:flex-row gap-8 md:gap-12">
+
+                <!-- Left Col: Poster & Actions -->
+                <div class="w-48 md:w-72 shrink-0 mx-auto md:mx-0">
+                    <div
+                        class="rounded-xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.8)] border border-white/10 mb-6 aspect-[2/3] transform transition-transform duration-500 hover:scale-[1.02]">
+                        <img id="movie-poster" src="https://image.tmdb.org/t/p/w500/gajva2L0rPYkEWjzgFlBXCAVBE5.jpg"
+                            alt="Poster" class="w-full h-full object-cover">
+                    </div>
+
+                    <button
+                        class="w-full py-3 md:py-4 bg-[#FF4500] hover:bg-orange-600 text-white rounded-lg font-medium tracking-wide transition-all shadow-lg hover:shadow-[#FF4500]/20 flex justify-center items-center gap-2 mb-4">
+                        <iconify-icon icon="lucide:check" class="text-xl"></iconify-icon> Logged
+                    </button>
+
+                    <div class="flex items-center gap-2 text-sm text-gray-400 justify-center">
+                        <iconify-icon icon="lucide:star" class="text-[#FF4500]"></iconify-icon>
+                        <iconify-icon icon="lucide:star" class="text-[#FF4500]"></iconify-icon>
+                        <iconify-icon icon="lucide:star" class="text-[#FF4500]"></iconify-icon>
+                        <iconify-icon icon="lucide:star" class="text-[#FF4500]"></iconify-icon>
+                        <iconify-icon icon="lucide:star" class="text-gray-600"></iconify-icon>
+                        <span id="movie-rating" class="ml-2 font-mono text-white">4.0</span>
+                    </div>
+                </div>
+
+                <!-- Right Col: Details -->
+                <div class="flex-grow pt-4 md:pt-16 text-center md:text-left">
+                    <h1 id="movie-title"
+                        class="text-4xl md:text-7xl font-serif font-medium leading-tight mb-2 drop-shadow-xl text-white">
+                        Blade Runner 2049
+                    </h1>
+
+                    <div
+                        class="flex flex-wrap items-center justify-center md:justify-start gap-4 text-sm md:text-base text-gray-400 mb-8 font-light">
+                        <span id="movie-year"
+                            class="px-2 py-0.5 border border-white/20 rounded text-xs tracking-widest text-white/80">2017</span>
+                        <span class="flex items-center gap-1.5"><iconify-icon icon="lucide:clock"></iconify-icon> <span
+                                id="movie-runtime">2h 44m</span></span>
+                        <span class="w-1 h-1 rounded-full bg-gray-600 hidden md:block"></span>
+                        <span>Directed by <a href="#" id="movie-director"
+                                class="text-white hover:text-[#FF4500] transition-colors border-b border-white/20 hover:border-[#FF4500]">Denis
+                                Villeneuve</a></span>
+                    </div>
+
+                    <!-- Synopsis -->
+                    <div class="mb-12 max-w-3xl">
+                        <h3 class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-4 font-semibold">Synopsis</h3>
+                        <p id="movie-synopsis" class="text-lg text-gray-300 leading-relaxed font-light">
+                            Thirty years after the events of the first film, a new blade runner, LAPD Officer K,
+                            unearths a long-buried secret that has the potential to plunge what's left of society into
+                            chaos. K's discovery leads him on a quest to find Rick Deckard, a former LAPD blade runner
+                            who has been missing for 30 years.
+                        </p>
+                    </div>
+
+                    <!-- Cast (Horizontal Scroll) -->
+                    <div class="mb-16">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-xs uppercase tracking-[0.2em] text-gray-500 font-semibold">Top Cast</h3>
+                            <div class="flex gap-2">
+                                <button
+                                    class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/10"
+                                    onclick="document.getElementById('cast-row').scrollBy({left: -200, behavior: 'smooth'})">
+                                    <iconify-icon icon="lucide:chevron-left"></iconify-icon>
+                                </button>
+                                <button
+                                    class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/10"
+                                    onclick="document.getElementById('cast-row').scrollBy({left: 200, behavior: 'smooth'})">
+                                    <iconify-icon icon="lucide:chevron-right"></iconify-icon>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="cast-row" class="flex gap-4 overflow-x-auto hide-scroll pb-4">
+                            <!-- Cast Members -->
+                            <div class="w-28 shrink-0 text-center group cursor-pointer">
+                                <div
+                                    class="w-24 h-24 mx-auto rounded-full overflow-hidden mb-3 border border-white/10 group-hover:border-[#FF4500] transition-colors">
+                                    <img src="https://image.tmdb.org/t/p/w200/nraZoTzwJQPHspAVsKfgl3RXKKa.jpg"
+                                        alt="Ryan Gosling" class="w-full h-full object-cover">
+                                </div>
+                                <h4 class="text-sm text-white mb-1">Ryan Gosling</h4>
+                                <p class="text-xs text-gray-500">Officer K</p>
+                            </div>
+
+                            <div class="w-28 shrink-0 text-center group cursor-pointer">
+                                <div
+                                    class="w-24 h-24 mx-auto rounded-full overflow-hidden mb-3 border border-white/10 group-hover:border-[#FF4500] transition-colors">
+                                    <img src="https://image.tmdb.org/t/p/w200/5M7oN3sznp99hWYQ9sX0xheswWX.jpg"
+                                        alt="Harrison Ford" class="w-full h-full object-cover">
+                                </div>
+                                <h4 class="text-sm text-white mb-1">Harrison Ford</h4>
+                                <p class="text-xs text-gray-500">Rick Deckard</p>
+                            </div>
+
+                            <div class="w-28 shrink-0 text-center group cursor-pointer">
+                                <div
+                                    class="w-24 h-24 mx-auto rounded-full overflow-hidden mb-3 border border-white/10 group-hover:border-[#FF4500] transition-colors">
+                                    <img src="https://image.tmdb.org/t/p/w200/vHkJEzHChm00A1N77cWnj80q9q6.jpg"
+                                        alt="Ana de Armas" class="w-full h-full object-cover">
+                                </div>
+                                <h4 class="text-sm text-white mb-1">Ana de Armas</h4>
+                                <p class="text-xs text-gray-500">Joi</p>
+                            </div>
+
+                            <div class="w-28 shrink-0 text-center group cursor-pointer">
+                                <div
+                                    class="w-24 h-24 mx-auto rounded-full overflow-hidden mb-3 border border-white/10 group-hover:border-[#FF4500] transition-colors">
+                                    <img src="https://image.tmdb.org/t/p/w200/1X1QzE0X8bFqJ10fH8y9T144GZz.jpg"
+                                        alt="Sylvia Hoeks" class="w-full h-full object-cover">
+                                </div>
+                                <h4 class="text-sm text-white mb-1">Sylvia Hoeks</h4>
+                                <p class="text-xs text-gray-500">Luv</p>
+                            </div>
+
+                            <div class="w-28 shrink-0 text-center group cursor-pointer">
+                                <div
+                                    class="w-24 h-24 mx-auto rounded-full overflow-hidden mb-3 border border-white/10 group-hover:border-[#FF4500] transition-colors">
+                                    <img src="https://image.tmdb.org/t/p/w200/fRjcJzEQHExqXXs02C9z4qG2Ifc.jpg"
+                                        alt="Jared Leto" class="w-full h-full object-cover">
+                                </div>
+                                <h4 class="text-sm text-white mb-1">Jared Leto</h4>
+                                <p class="text-xs text-gray-500">Niander Wallace</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reviews Section -->
+                    <div class="pt-8 border-t border-white/5">
+                        <div class="flex items-center justify-between mb-8">
+                            <h3 class="text-xs uppercase tracking-[0.2em] text-gray-500 font-semibold">Community Reviews
+                            </h3>
+                            <a href="#" class="text-sm text-[#FF4500] hover:text-white transition-colors">See all 4,201
+                                reviews</a>
+                        </div>
+
+                        <div class="space-y-6">
+                            <!-- Review 1 -->
+                            <div class="bg-[#111] border border-white/5 rounded-2xl p-6">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center gap-3">
+                                        <img src="https://ui-avatars.com/api/?name=Cinephile&background=222&color=fff"
+                                            alt="User" class="w-8 h-8 rounded-full">
+                                        <div>
+                                            <p class="text-sm text-white font-medium">Cinephile99</p>
+                                            <div class="flex items-center gap-1 mt-0.5">
+                                                <iconify-icon icon="lucide:star"
+                                                    class="text-[#FF4500] text-xs"></iconify-icon>
+                                                <iconify-icon icon="lucide:star"
+                                                    class="text-[#FF4500] text-xs"></iconify-icon>
+                                                <iconify-icon icon="lucide:star"
+                                                    class="text-[#FF4500] text-xs"></iconify-icon>
+                                                <iconify-icon icon="lucide:star"
+                                                    class="text-[#FF4500] text-xs"></iconify-icon>
+                                                <iconify-icon icon="lucide:star"
+                                                    class="text-[#FF4500] text-xs"></iconify-icon>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="text-xs text-gray-500">October 8, 2017</span>
+                                </div>
+                                <p class="text-gray-300 text-sm leading-relaxed font-light">
+                                    A visual masterpiece that manages to expand upon the philosophical themes of the
+                                    original while forging its own distinct identity. Deakins' cinematography is
+                                    breathtaking in every single frame.
+                                </p>
+                                <div class="mt-4 flex items-center gap-4 text-xs text-gray-500">
+                                    <button class="flex items-center gap-1.5 hover:text-white transition-colors group">
+                                        <iconify-icon icon="lucide:heart"
+                                            class="group-hover:text-red-500"></iconify-icon> 2.4k
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Review 2 -->
+                            <div class="bg-[#111] border border-white/5 rounded-2xl p-6">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center gap-3">
+                                        <img src="https://ui-avatars.com/api/?name=Alex&background=444&color=fff"
+                                            alt="User" class="w-8 h-8 rounded-full">
+                                        <div>
+                                            <p class="text-sm text-white font-medium">AlexReview</p>
+                                            <div class="flex items-center gap-1 mt-0.5">
+                                                <iconify-icon icon="lucide:star"
+                                                    class="text-[#FF4500] text-xs"></iconify-icon>
+                                                <iconify-icon icon="lucide:star"
+                                                    class="text-[#FF4500] text-xs"></iconify-icon>
+                                                <iconify-icon icon="lucide:star"
+                                                    class="text-[#FF4500] text-xs"></iconify-icon>
+                                                <iconify-icon icon="lucide:star"
+                                                    class="text-[#FF4500] text-xs"></iconify-icon>
+                                                <iconify-icon icon="lucide:star"
+                                                    class="text-gray-700 text-xs"></iconify-icon>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="text-xs text-gray-500">November 12, 2023</span>
+                                </div>
+                                <p class="text-gray-300 text-sm leading-relaxed font-light">
+                                    Pacing is definitely slow, but the atmosphere and sound design keep you locked in.
+                                    Hans Zimmer's score vibrates through your core.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="movies.js"></script>
+    <script src="tmdb.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            // Default to TMDB ID for Blade Runner 2049 if none provided
+            const id = urlParams.get('id') || 335984;
+
+            let movie = await getMovieDetailsAPI(id);
+
+            // Fallback
+            if (!movie) {
+                console.log("TMDB Failed. Using mock DB.");
+                movie = mockDatabase.find(m => m.id == id) || mockDatabase[0];
+            }
+
+            if (movie) {
+                // Update basic text
+                document.title = `CineLog | ${movie.title}`;
+                document.getElementById('movie-title').textContent = movie.title;
+                document.getElementById('movie-year').textContent = movie.year;
+                document.getElementById('movie-director').textContent = movie.director;
+                document.getElementById('movie-runtime').textContent = movie.runtime;
+                document.getElementById('movie-rating').textContent = movie.rating;
+                document.getElementById('movie-synopsis').textContent = movie.desc;
+
+                // Update images
+                document.getElementById('movie-poster').src = movie.poster;
+                document.getElementById('hero-backdrop').src = movie.backdrop || movie.poster; // Fallback to poster
+
+                // Render dynamic cast row if available
+                const castContainer = document.getElementById('cast-row');
+                if (movie.cast && movie.cast.length > 0) {
+                    castContainer.innerHTML = ''; // clear original
+                    movie.cast.forEach(actor => {
+                        castContainer.innerHTML += `
+                            <div class="w-28 shrink-0 text-center group cursor-pointer">
+                                <div class="w-24 h-24 mx-auto rounded-full overflow-hidden mb-3 border border-white/10 group-hover:border-[#FF4500] transition-colors">
+                                    <img src="${actor.img}" alt="${actor.name}" class="w-full h-full object-cover">
+                                </div>
+                                <h4 class="text-sm text-white mb-1">${actor.name}</h4>
+                                <p class="text-xs text-gray-500">${actor.role}</p>
+                            </div>
+                        `;
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

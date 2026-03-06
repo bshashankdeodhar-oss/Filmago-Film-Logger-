@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineLog | User Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --accent: #FF4500;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: white;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Noise Texture Overlay */
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            pointer-events: none;
+            opacity: 0.05;
+            mix-blend-mode: overlay;
+            background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+        }
+
+        /* Hover image effects */
+        .poster-wrapper:hover img {
+            transform: scale(1.05);
+        }
+
+        .poster-wrapper img {
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="min-h-screen bg-[#050505] selection:bg-[#FF4500] selection:text-white pb-32">
+        <div class="noise-overlay"></div>
+
+        <!-- Navigation -->
+        <nav id="main-nav"
+            class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-4 bg-[#050505]/90 backdrop-blur-md border-b border-white/5">
+            <div class="container mx-auto px-6 flex items-center justify-between">
+                <a href="index.html" class="text-2xl font-bold tracking-tighter font-serif">
+                    CineLog.
+                </a>
+
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="search.html"
+                        class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Search</a>
+                    <a href="profile.html"
+                        class="text-sm text-white hover:text-white transition-colors duration-300 border-b border-[#FF4500] pb-1">Profile</a>
+                    <a href="timeline.html"
+                        class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Timeline</a>
+                </div>
+
+                <a href="profile.html"
+                    class="w-10 h-10 rounded-full overflow-hidden border border-[#FF4500] transition-colors">
+                    <img src="https://ui-avatars.com/api/?name=User&background=111&color=fff" alt="User"
+                        class="w-full h-full object-cover">
+                </a>
+            </div>
+        </nav>
+
+        <!-- Header Banner Section -->
+        <div class="pt-32 pb-12 border-b border-white/5 relative">
+            <div class="absolute inset-0 z-0 opacity-20 bg-gradient-to-b from-[#FF4500]/20 to-transparent"></div>
+
+            <div
+                class="container mx-auto px-6 max-w-5xl relative z-10 flex flex-col md:flex-row items-center md:items-start gap-8">
+                <!-- Avatar -->
+                <div
+                    class="w-32 h-32 md:w-40 md:h-40 shrink-0 rounded-full overflow-hidden border-4 border-white/10 shadow-[0_0_30px_rgba(255,69,0,0.2)]">
+                    <img src="https://ui-avatars.com/api/?name=User&background=111&color=fff&size=200" alt="User Avatar"
+                        class="w-full h-full object-cover">
+                </div>
+
+                <!-- Info -->
+                <div class="flex-grow text-center md:text-left">
+                    <div class="flex flex-col md:flex-row md:items-center gap-4 mb-2">
+                        <h1 class="text-3xl md:text-5xl font-serif">Cinephile99</h1>
+                        <button
+                            class="mx-auto md:mx-0 px-6 py-1.5 rounded-full border border-white/20 text-sm font-medium hover:bg-white hover:text-black transition-colors shadow-lg">Edit
+                            Profile</button>
+                    </div>
+                    <p class="text-gray-400 mb-6 font-light max-w-lg mx-auto md:mx-0 leading-relaxed">Watching the
+                        shadows dance on the wall since 1999. In pursuit of the perfect tracking shot. Obsessed with
+                        A24, Fincher, and anything shot on 35mm.</p>
+
+                    <!-- Stats Grid -->
+                    <div class="flex flex-wrap justify-center md:justify-start gap-8 md:gap-12">
+                        <div>
+                            <p class="text-3xl font-serif text-white">402</p>
+                            <p class="text-xs uppercase tracking-widest text-[#FF4500] font-bold mt-1">Films</p>
+                        </div>
+                        <div>
+                            <p class="text-3xl font-serif text-white">45</p>
+                            <p class="text-xs uppercase tracking-widest text-[#FF4500] font-bold mt-1">This Year</p>
+                        </div>
+                        <div>
+                            <p class="text-3xl font-serif text-white">128</p>
+                            <p class="text-xs uppercase tracking-widest text-[#FF4500] font-bold mt-1">Reviews</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container mx-auto px-6 max-w-5xl mt-16 flex flex-col lg:flex-row gap-16">
+
+            <!-- Left Column: Main Diary Activity -->
+            <div class="flex-grow w-full lg:w-2/3">
+                <div class="flex items-center justify-between mb-8">
+                    <h2 class="text-2xl font-serif">Recent Diary</h2>
+                    <a href="#" class="text-sm text-gray-500 hover:text-white transition-colors">View Diary
+                        <iconify-icon icon="lucide:arrow-right" class="inline align-middle"></iconify-icon></a>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Diary Item 1 -->
+                    <div class="flex gap-4 group">
+                        <a href="details.html?id=335984" data-id="335984"
+                            class="w-20 shrink-0 poster-wrapper rounded-md overflow-hidden aspect-[2/3] border border-white/10 relative tmdb-hydrate">
+                            <img src="https://image.tmdb.org/t/p/w200/gajva2L0rPYkEWjzgFlBXCAVBE5.jpg" alt="Poster"
+                                class="w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <iconify-icon icon="lucide:eye" class="text-white text-xl"></iconify-icon>
+                            </div>
+                        </a>
+                        <div class="flex flex-col py-1 flex-grow border-b border-white/5 pb-6">
+                            <div class="flex items-start justify-between mb-1">
+                                <div>
+                                    <h3 class="font-serif text-lg text-white hover:text-[#FF4500] transition-colors"><a
+                                            href="details.html?id=335984" class="tmdb-title">Blade Runner 2049</a> <span
+                                            class="text-gray-500 text-sm font-sans mx-1 tmdb-year">2017</span></h3>
+                                </div>
+                                <span class="text-xs text-gray-500 font-mono">Today</span>
+                            </div>
+
+                            <div class="flex items-center gap-2 mb-3">
+                                <iconify-icon icon="lucide:heart" class="text-red-500 text-sm"
+                                    icon="mingcute:heart-fill"></iconify-icon>
+                                <div class="flex gap-0.5 text-[#FF4500] text-xs">
+                                    <iconify-icon icon="lucide:star"></iconify-icon>
+                                    <iconify-icon icon="lucide:star"></iconify-icon>
+                                    <iconify-icon icon="lucide:star"></iconify-icon>
+                                    <iconify-icon icon="lucide:star"></iconify-icon>
+                                    <iconify-icon icon="lucide:star" class="text-gray-700"></iconify-icon>
+                                </div>
+                                <span
+                                    class="bg-white/10 px-2 py-0.5 rounded text-[10px] text-white/70 tracking-wider">REWATCH</span>
+                            </div>
+
+                            <p class="text-gray-400 text-sm font-light leading-relaxed mb-4">
+                                Third time watching this and Deakins' work continues to absolutely floor me. The water
+                                reflections in the Wallace building scene alone belong in a museum. Still processing the
+                                ending.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Diary Item 2 -->
+                    <div class="flex gap-4 group">
+                        <a href="details.html?id=792307" data-id="792307"
+                            class="w-20 shrink-0 poster-wrapper rounded-md overflow-hidden aspect-[2/3] border border-white/10 relative tmdb-hydrate">
+                            <img src="https://image.tmdb.org/t/p/w200/kCGlIMHnOm8PhnOIdXPr1jxW2n2.jpg" alt="Poster"
+                                class="w-full h-full object-cover">
+                        </a>
+                        <div class="flex flex-col py-1 flex-grow border-b border-white/5 pb-6">
+                            <div class="flex items-start justify-between mb-1">
+                                <div>
+                                    <h3 class="font-serif text-lg text-white hover:text-[#FF4500] transition-colors"><a
+                                            href="details.html?id=792307" class="tmdb-title">Poor Things</a> <span
+                                            class="text-gray-500 text-sm font-sans mx-1 tmdb-year">2023</span></h3>
+                                </div>
+                                <span class="text-xs text-gray-500 font-mono">Feb 28</span>
+                            </div>
+
+                            <div class="flex items-center gap-2 mb-3">
+                                <iconify-icon icon="lucide:heart" class="text-red-500 text-sm"
+                                    icon="mingcute:heart-fill"></iconify-icon>
+                                <div class="flex gap-0.5 text-[#FF4500] text-xs">
+                                    <iconify-icon icon="lucide:star"></iconify-icon>
+                                    <iconify-icon icon="lucide:star"></iconify-icon>
+                                    <iconify-icon icon="lucide:star"></iconify-icon>
+                                    <iconify-icon icon="lucide:star"></iconify-icon>
+                                    <iconify-icon icon="lucide:star"></iconify-icon>
+                                </div>
+                            </div>
+                            <p class="text-gray-400 text-sm font-light leading-relaxed mb-4">
+                                Emma Stone gave the performance of a lifetime. The production design was absurdly
+                                creative — it felt like stepping into an elaborate moving painting. Masterpiece.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Favorites & Sidebar -->
+            <div class="w-full lg:w-1/3">
+                <div class="mb-12">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-sm uppercase tracking-[0.2em] font-bold text-gray-500">Favorite Films</h2>
+                        <button class="text-gray-500 hover:text-white"><iconify-icon icon="lucide:edit-2"
+                                class="text-sm"></iconify-icon></button>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <a href="details.html?id=872585" data-id="872585"
+                            class="poster-wrapper block rounded-lg overflow-hidden border border-white/10 shadow-lg aspect-[2/3] relative group tmdb-hydrate-card">
+                            <img src="https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg"
+                                class="w-full h-full object-cover" alt="Oppenheimer">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
+                                <span class="text-xs text-white uppercase tracking-wider font-bold">Oppenheimer</span>
+                            </div>
+                        </a>
+                        <a href="details.html?id=438631" data-id="438631"
+                            class="poster-wrapper block rounded-lg overflow-hidden border border-white/10 shadow-lg aspect-[2/3] relative group tmdb-hydrate-card">
+                            <img src="https://image.tmdb.org/t/p/w500/d5NXSklXo0qyIYkgV94XAgMIckC.jpg"
+                                class="w-full h-full object-cover" alt="Dune">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
+                                <span class="text-xs text-white uppercase tracking-wider font-bold">Dune</span>
+                            </div>
+                        </a>
+                        <a href="details.html?id=1160164" data-id="1160164"
+                            class="poster-wrapper block rounded-lg overflow-hidden border border-white/10 shadow-lg aspect-[2/3] relative group tmdb-hydrate-card">
+                            <img src="https://image.tmdb.org/t/p/w500/k3waqVXSnvCZWfJYNtdamTgTtTA.jpg"
+                                class="w-full h-full object-cover" alt="Past Lives">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
+                                <span class="text-xs text-white uppercase tracking-wider font-bold">Past Lives</span>
+                            </div>
+                        </a>
+                        <a href="details.html?id=467244" data-id="467244"
+                            class="poster-wrapper block rounded-lg overflow-hidden border border-white/10 shadow-lg aspect-[2/3] relative group tmdb-hydrate-card">
+                            <img src="https://image.tmdb.org/t/p/w500/A31lX5xL7Nlqgq6UaM5S0bBXX7a.jpg"
+                                class="w-full h-full object-cover" alt="Zone of Interest">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
+                                <span class="text-xs text-white uppercase tracking-wider font-bold">Zone of
+                                    Interest</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Watchlist Teaser -->
+                <div>
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-sm uppercase tracking-[0.2em] font-bold text-gray-500">Watchlist Queue</h2>
+                        <a href="#" class="text-sm text-[#FF4500] hover:text-white">See All</a>
+                    </div>
+                    <div class="bg-[#111] rounded-xl border border-white/5 p-4 space-y-3">
+                        <div class="flex items-center gap-3">
+                            <img src="https://image.tmdb.org/t/p/w92/1pdfLvkbY9ohJlCjQH2TDpiD98.jpg"
+                                class="w-8 aspect-[2/3] object-cover rounded shadow" alt="">
+                            <div>
+                                <h4 class="text-sm font-serif text-white">Dune: Part Two</h4>
+                                <p class="text-[10px] text-gray-500 uppercase tracking-widest">Added 2d ago</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <img src="https://image.tmdb.org/t/p/w92/qJ2tW6WMUDux911r6m7haRef0WH.jpg"
+                                class="w-8 aspect-[2/3] object-cover rounded shadow" alt="">
+                            <div>
+                                <h4 class="text-sm font-serif text-white">The Dark Knight</h4>
+                                <p class="text-[10px] text-gray-500 uppercase tracking-widest">Added 1w ago</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="movies.js"></script>
+    <script src="tmdb.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Hydrate diary list
+            document.querySelectorAll('.tmdb-hydrate').forEach(async (el) => {
+                const id = el.getAttribute('data-id');
+                const movie = await getMovieDetailsAPI(id);
+                if (movie) {
+                    const img = el.querySelector('img');
+                    if (img) img.src = movie.poster;
+
+                    // The parent wrapper has the title and year elsewhere, so we find it:
+                    const wrapper = el.parentElement;
+                    const title = wrapper.querySelector('.tmdb-title');
+                    const year = wrapper.querySelector('.tmdb-year');
+
+                    if (title) title.textContent = movie.title;
+                    if (year) year.textContent = movie.year;
+                }
+            });
+
+            // Hydrate favorite grid cards
+            document.querySelectorAll('.tmdb-hydrate-card').forEach(async (card) => {
+                const id = card.getAttribute('data-id');
+                const movie = await getMovieDetailsAPI(id);
+                if (movie) {
+                    const img = card.querySelector('img');
+                    const span = card.querySelector('span');
+                    if (img) img.src = movie.poster;
+                    if (span) span.textContent = movie.title;
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
