@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CineLog | Cinematic Timeline</title>
+    <title>Filmago | Cinematic Timeline</title>
+    <script src="auth.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -229,7 +230,7 @@
             class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-4 bg-[#050505]/90 backdrop-blur-md border-b border-white/5">
             <div class="container mx-auto px-6 flex items-center justify-between">
                 <a href="index.html" class="text-2xl font-bold tracking-tighter font-serif">
-                    CineLog.
+                    Filmago.
                 </a>
 
                 <div class="hidden md:flex items-center space-x-8">
@@ -237,6 +238,8 @@
                         class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Search</a>
                     <a href="profile.html"
                         class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Profile</a>
+                    <a href="watchlist.html"
+                        class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Watchlist</a>
                     <a href="timeline.html"
                         class="text-sm text-white hover:text-white transition-colors duration-300 border-b border-[#FF4500] pb-1">Timeline</a>
                 </div>
@@ -258,140 +261,67 @@
 
         <!-- Timeline Container -->
         <div class="timeline-container px-6" id="timeline">
-
-            <!-- Generate Timeline Nodes via JS or statically. Statically here for illustration -->
-
-            <!-- Node 1 -->
-            <div class="timeline-node left">
-                <div class="timeline-date hidden md:block">Oct 29</div>
-                <div class="timeline-card inline-block group cursor-pointer" data-id="335984">
-                    <p class="md:hidden text-[#FF4500] text-xs font-bold tracking-widest uppercase mb-2">Oct 29, 2024
-                    </p>
-                    <div class="flex gap-4">
-                        <div
-                            class="w-20 shrink-0 rounded-md overflow-hidden aspect-[2/3] border border-white/10 shadow-lg">
-                            <img src="https://image.tmdb.org/t/p/w200/gajva2L0rPYkEWjzgFlBXCAVBE5.jpg"
-                                class="w-full h-full object-cover" alt="Poster">
-                        </div>
-                        <div class="flex flex-col justify-center">
-                            <h3 class="text-xl font-serif text-white group-hover:text-[#FF4500] transition-colors mb-1">
-                                Blade Runner 2049</h3>
-                            <div class="flex items-center gap-1 mb-3 text-[#FF4500] text-sm">
-                                <iconify-icon icon="lucide:star"></iconify-icon>
-                                <iconify-icon icon="lucide:star"></iconify-icon>
-                                <iconify-icon icon="lucide:star"></iconify-icon>
-                                <iconify-icon icon="lucide:star"></iconify-icon>
-                                <iconify-icon icon="lucide:star" class="text-gray-700"></iconify-icon>
-                            </div>
-                            <p class="text-sm text-gray-400 font-light line-clamp-2">Re-watched the masterpiece. The
-                                neon dystopia feels more immersive every time.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Node 2 -->
-            <div class="timeline-node right mt-8 md:-mt-16">
-                <div class="timeline-date hidden md:block">Oct 15</div>
-                <div class="timeline-card inline-block group cursor-pointer" data-id="792307">
-                    <p class="md:hidden text-[#FF4500] text-xs font-bold tracking-widest uppercase mb-2">Oct 15, 2024
-                    </p>
-                    <div class="flex gap-4">
-                        <div
-                            class="w-20 shrink-0 rounded-md overflow-hidden aspect-[2/3] border border-white/10 shadow-lg">
-                            <img src="https://image.tmdb.org/t/p/w200/kCGlIMHnOm8PhnOIdXPr1jxW2n2.jpg"
-                                class="w-full h-full object-cover" alt="Poster">
-                        </div>
-                        <div class="flex flex-col justify-center">
-                            <h3 class="text-xl font-serif text-white group-hover:text-[#FF4500] transition-colors mb-1">
-                                Poor Things</h3>
-                            <div class="flex items-center gap-1 mb-3 text-[#FF4500] text-sm">
-                                <iconify-icon icon="lucide:star"></iconify-icon>
-                                <iconify-icon icon="lucide:star"></iconify-icon>
-                                <iconify-icon icon="lucide:star"></iconify-icon>
-                                <iconify-icon icon="lucide:star"></iconify-icon>
-                                <iconify-icon icon="lucide:star"></iconify-icon>
-                            </div>
-                            <p class="text-sm text-gray-400 font-light line-clamp-2">Emma Stone's performance is
-                                legendary. Bizarre, beautiful, and absolutely genius.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Node 3 -->
-            <div class="timeline-node left mt-8 md:-mt-16">
-                <div class="timeline-date hidden md:block">Sep 30</div>
-                <div class="timeline-card inline-block group cursor-pointer" data-id="872585">
-                    <p class="md:hidden text-[#FF4500] text-xs font-bold tracking-widest uppercase mb-2">Sep 30, 2024
-                    </p>
-                    <div class="flex gap-4">
-                        <div
-                            class="w-20 shrink-0 rounded-md overflow-hidden aspect-[2/3] border border-white/10 shadow-lg">
-                            <img src="https://image.tmdb.org/t/p/w200/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg"
-                                class="w-full h-full object-cover" alt="Poster">
-                        </div>
-                        <div class="flex flex-col justify-center">
-                            <h3 class="text-xl font-serif text-white group-hover:text-[#FF4500] transition-colors mb-1">
-                                Oppenheimer</h3>
-                            <div class="flex items-center gap-1 mb-3 text-[#FF4500] text-sm">
-                                <iconify-icon icon="lucide:star"></iconify-icon>
-                                <iconify-icon icon="lucide:star"></iconify-icon>
-                                <iconify-icon icon="lucide:star"></iconify-icon>
-                                <iconify-icon icon="lucide:star"></iconify-icon>
-                                <iconify-icon icon="lucide:star" class="text-gray-700"></iconify-icon>
-                            </div>
-                            <p class="text-sm text-gray-400 font-light line-clamp-2">Nolan does it again. The auditory
-                                experience in IMAX was unforgettable.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Year Marker -->
-            <div class="timeline-node left mt-16 md:mt-8 w-full !text-center flex justify-center pb-8 !opacity-100 !transform-none"
-                style="left:0;">
-                <div
-                    class="bg-black border border-white/20 text-white/50 px-6 py-2 rounded-full font-serif mx-auto z-10 relative text-xl">
-                    Early 2024
-                </div>
-            </div>
-
-            <!-- Node 4 -->
-            <div class="timeline-node right mt-8 md:-mt-8">
-                <div class="timeline-date hidden md:block">Feb 14</div>
-                <div class="timeline-card inline-block group cursor-pointer" data-id="1160164">
-                    <p class="md:hidden text-[#FF4500] text-xs font-bold tracking-widest uppercase mb-2">Feb 14, 2024
-                    </p>
-                    <div class="flex gap-4">
-                        <div
-                            class="w-20 shrink-0 rounded-md overflow-hidden aspect-[2/3] border border-white/10 shadow-lg">
-                            <img src="https://image.tmdb.org/t/p/w200/k3waqVXSnvCZWfJYNtdamTgTtTA.jpg"
-                                class="w-full h-full object-cover" alt="Poster">
-                        </div>
-                        <div class="flex flex-col justify-center">
-                            <h3 class="text-xl font-serif text-white group-hover:text-[#FF4500] transition-colors mb-1">
-                                Past Lives</h3>
-                            <div class="flex items-center gap-1 mb-3 text-[#FF4500] text-sm">
-                                <iconify-icon icon="lucide:star"></iconify-icon>
-                                <iconify-icon icon="lucide:star"></iconify-icon>
-                                <iconify-icon icon="lucide:star"></iconify-icon>
-                                <iconify-icon icon="lucide:star"></iconify-icon>
-                                <iconify-icon icon="lucide:star"></iconify-icon>
-                            </div>
-                            <p class="text-sm text-gray-400 font-light line-clamp-2">The most heartbreaking, mature, and
-                                beautiful romance film in years.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+            <!-- Populated by JS -->
         </div>
     </div>
 
     <script src="movies.js"></script>
     <script src="tmdb.js"></script>
     <script>
+        // Render Timeline Nodes Dynamically
+        const timelineContainer = document.getElementById('timeline');
+        const diary = getDiary();
+
+        // Sort effectively by date descending
+        const sortedDiary = diary.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        if (sortedDiary.length === 0) {
+            timelineContainer.innerHTML = `<div class="text-center py-20 text-gray-500">No events found. Log some films to create your timeline!</div>`;
+        } else {
+            sortedDiary.forEach((entry, index) => {
+                const isLeft = index % 2 === 0;
+                const sideClass = isLeft ? 'left' : 'right';
+                // Adjust margin classes slightly for staggered layout
+                const marginClass = index === 0 ? '' : (isLeft ? 'mt-8 md:-mt-16' : 'mt-8 md:-mt-16');
+
+                const dateObj = new Date(entry.date);
+                const shortDate = dateObj.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+                const fullDate = dateObj.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+
+                const starsHTML = Array(5).fill(0).map((_, i) =>
+                    `<iconify-icon icon="lucide:star" class="${i < entry.rating ? 'text-[#FF4500]' : 'text-gray-700'}"></iconify-icon>`
+                ).join('');
+
+                const html = `
+                <div class="timeline-node ${sideClass} ${marginClass}">
+                    <div class="timeline-date hidden md:block">${shortDate}</div>
+                    <div class="timeline-card inline-block group cursor-pointer" data-id="${entry.movie.id}">
+                        <p class="md:hidden text-[#FF4500] text-xs font-bold tracking-widest uppercase mb-2">
+                            ${fullDate}
+                        </p>
+                        <div class="flex gap-4">
+                            <div class="w-20 shrink-0 rounded-md overflow-hidden aspect-[2/3] border border-white/10 shadow-lg">
+                                <img src="${entry.movie.poster}" class="w-full h-full object-cover" alt="Poster">
+                            </div>
+                            <div class="flex flex-col justify-center">
+                                <h3 class="text-xl font-serif text-white group-hover:text-[#FF4500] transition-colors mb-1">
+                                    ${entry.movie.title}</h3>
+                                <div class="flex items-center gap-1 mb-3 text-xs">
+                                    ${entry.liked ? '<iconify-icon icon="mingcute:heart-fill" class="text-red-500 mr-2"></iconify-icon>' : ''}
+                                    <div class="flex text-[#FF4500] gap-0.5">
+                                        ${starsHTML}
+                                    </div>
+                                </div>
+                                ${entry.review ? `<p class="text-sm text-gray-400 font-light line-clamp-2">${entry.review}</p>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+                timelineContainer.innerHTML += html;
+            });
+        }
+
         // Scroll Animation for Timeline Nodes
         const timelineObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -408,23 +338,11 @@
             timelineObserver.observe(node);
         });
 
-        // Navigation linking & Hydration
-        document.querySelectorAll('.timeline-card').forEach(async (card) => {
-            const id = card.getAttribute('data-id');
-
-            // Hydrate with real TMDB data
-            if (id) {
-                const movie = await getMovieDetailsAPI(id);
-                if (movie) {
-                    const img = card.querySelector('img');
-                    const title = card.querySelector('h3');
-                    if (img) img.src = movie.poster;
-                    if (title) title.textContent = movie.title;
-                }
-            }
-
+        // Navigation linking
+        document.querySelectorAll('.timeline-card').forEach((card) => {
             card.addEventListener('click', () => {
-                window.location.href = 'details.html?id=' + id;
+                const id = card.getAttribute('data-id');
+                if (id) window.location.href = 'details.html?id=' + id;
             });
         });
     </script>

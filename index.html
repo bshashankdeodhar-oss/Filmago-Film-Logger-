@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CineLog | The Film Agent</title>
+    <title>Filmago | The Film Agent</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -127,7 +127,7 @@
         <nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-8">
             <div class="container mx-auto px-6 flex items-center justify-between">
                 <a href="#" id="nav-logo-link" class="text-2xl font-bold tracking-tighter font-serif">
-                    CineLog.
+                    Filmago.
                 </a>
 
                 <div class="hidden md:flex items-center space-x-8">
@@ -135,14 +135,26 @@
                         class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Search</a>
                     <a href="profile.html" id="nav-profile-link"
                         class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Profile</a>
+                    <a href="watchlist.html" id="nav-watchlist-link"
+                        class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Watchlist</a>
                     <a href="timeline.html" id="nav-timeline-link"
                         class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Timeline</a>
                 </div>
 
-                <a href="search.html" id="nav-cta-link"
-                    class="inline-flex items-center justify-center px-6 py-3 rounded-full text-sm font-medium bg-white text-black hover:scale-105 hover:bg-gray-100 transition-all duration-300">
-                    Start Logging
-                </a>
+                <div class="flex items-center space-x-6">
+                    <a href="login.html" id="nav-login-link"
+                        class="text-sm text-gray-300 hover:text-white transition-colors duration-300">Log In</a>
+                    <a href="signup.html" id="nav-signup-link"
+                        class="text-sm text-gray-300 hover:text-white transition-colors duration-300">Sign Up</a>
+                    <button id="nav-logout-btn"
+                        class="hidden text-sm text-gray-400 hover:text-[#FF4500] transition-colors duration-300"
+                        onclick="logoutUser()">Log Out</button>
+
+                    <a href="search.html" id="nav-cta-link"
+                        class="inline-flex items-center justify-center px-6 py-2.5 rounded-full text-sm font-medium bg-white text-black hover:scale-105 hover:bg-gray-100 transition-all duration-300">
+                        Start Logging
+                    </a>
+                </div>
             </div>
         </nav>
 
@@ -178,7 +190,7 @@
                     <div class="reveal">
                         <h1 class="text-5xl md:text-7xl font-medium leading-[1.1] tracking-tight mb-6 text-[#ffe0e0] mix-blend-overlay font-serif"
                             style="text-shadow: 0 0 12px rgba(255,255,255,0.71);">
-                            CineLog. <br />
+                            Filmago. <br />
                             <span class="italic font-light text-[#ffe0e0]">The film agent.</span>
                         </h1>
                     </div>
@@ -337,7 +349,7 @@
                     <div class="w-full md:w-auto">
                         <h2
                             class="text-[10vw] leading-[0.8] tracking-tighter text-white/10 font-bold select-none pointer-events-none">
-                            CINELOG.
+                            FILMAGO.
                         </h2>
                     </div>
 
@@ -347,7 +359,7 @@
                             <a href="#" id="footer-tw-link" class="hover:text-white transition-colors">Twitter</a>
                             <a href="#" id="footer-li-link" class="hover:text-white transition-colors">Instagram</a>
                         </div>
-                        <p class="text-sm text-gray-600">© 2024 CineLog. All rights reserved.</p>
+                        <p class="text-sm text-gray-600">© 2024 Filmago. All rights reserved.</p>
                     </div>
                 </div>
             </div>
@@ -508,6 +520,25 @@
                 setTimeout(() => btn.innerText = orig, 2000);
             }
         });
+
+        // 7. Auth UI Update
+        function updateAuthUI() {
+            const user = getCurrentUser();
+            const loginLink = document.getElementById('nav-login-link');
+            const signupLink = document.getElementById('nav-signup-link');
+            const logoutBtn = document.getElementById('nav-logout-btn');
+
+            if (user && user !== 'guest') {
+                loginLink.classList.add('hidden');
+                signupLink.classList.add('hidden');
+                logoutBtn.classList.remove('hidden');
+            } else {
+                loginLink.classList.remove('hidden');
+                signupLink.classList.remove('hidden');
+                logoutBtn.classList.add('hidden');
+            }
+        }
+        updateAuthUI();
     </script>
 </body>
 

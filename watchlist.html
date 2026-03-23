@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filmago | Watchlist</title>
+    <script src="auth.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050505;
+            color: white;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            pointer-events: none;
+            opacity: 0.05;
+            mix-blend-mode: overlay;
+            background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+        }
+    </style>
+</head>
+
+<body>
+    <div class="min-h-screen pb-20">
+        <div class="noise-overlay"></div>
+        <nav id="main-nav"
+            class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-4 bg-[#050505]/90 backdrop-blur-md border-b border-white/5">
+            <div class="container mx-auto px-6 flex items-center justify-between">
+                <a href="index.html" class="text-2xl font-bold tracking-tighter font-serif">Filmago.</a>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="search.html" class="text-sm text-gray-400 hover:text-white">Search</a>
+                    <a href="profile.html" class="text-sm text-gray-400 hover:text-white">Profile</a>
+                    <a href="timeline.html" class="text-sm text-gray-400 hover:text-white">Timeline</a>
+                    <a href="watchlist.html" class="text-sm text-white border-b border-[#FF4500] pb-1">Watchlist</a>
+                </div>
+                <a href="profile.html"
+                    class="w-10 h-10 rounded-full overflow-hidden border border-white/20 hover:border-[#FF4500] transition-colors">
+                    <img id="avatar-img" src="https://ui-avatars.com/api/?name=User&background=111&color=fff" alt="User"
+                        class="w-full h-full object-cover">
+                </a>
+            </div>
+        </nav>
+
+        <div class="pt-28 px-6">
+            <div class="max-w-6xl mx-auto">
+                <h1 class="text-5xl md:text-7xl font-serif mb-4">Your Watchlist</h1>
+                <p class="text-gray-400 font-light mb-12">A dedicated page for the films you want to watch next.</p>
+
+                <div id="watchlist-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                <div id="watchlist-empty" class="text-center text-gray-500 py-16">
+                    <iconify-icon icon="lucide:film" class="text-6xl mb-4"></iconify-icon>
+                    <p class="text-xl font-light">Your watchlist is empty. Add films from search or details pages.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="movies.js"></script>
+    <script src="tmdb.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const watchlistGrid = document.getElementById('watchlist-grid');
+            const emptyEl = document.getElementById('watchlist-empty');
+            const profile = getProfile();
+            const avatarImg = document.getElementById('avatar-img');
+            if (avatarImg) avatarImg.src = profile.avatar;
+
+            function refresh() {
+                const list = getWatchlist();
+                watchlistGrid.innerHTML = '';
+                if (list.length === 0) {
+                    emptyEl.style.display = 'block';
+                    return;
+                }
+                emptyEl.style.display = 'none';
+
+                list.forEach(movie => {
+                    const card = document.createElement('div');
+                    card.className = 'bg-[#111] border border-white/10 rounded-2xl p-4';
+                    card.innerHTML = `
+                        <div class="flex flex-col h-full">
+                            <a href="details.html?id=${movie.id}" class="block overflow-hidden rounded-xl mb-4 border border-white/10 h-[320px]">
+                                <img src="${movie.poster}" alt="${movie.title}" class="h-full w-full object-cover transition-transform duration-300 hover:scale-105" />
+                            </a>
+                            <h2 class="text-lg font-semibold tracking-tight">${movie.title} <span class="text-gray-500 text-sm">(${movie.year || '—'})</span></h2>
+                            <div class="mt-3 flex items-center gap-2 text-sm">
+                                <button class="btn-remove px-3 py-1 rounded-lg border border-[#FF4500] text-[#FF4500] hover:bg-[#FF4500] hover:text-black transition-colors" data-id="${movie.id}">Remove</button>
+                                <button class="btn-fav px-3 py-1 rounded-lg border border-white/20 text-white hover:bg-white hover:text-black transition-colors" data-id="${movie.id}">Favorite</button>
+                            </div>
+                        </div>
+                    `;
+                    watchlistGrid.appendChild(card);
+                });
+
+                watchlistGrid.querySelectorAll('.btn-remove').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const id = e.target.dataset.id;
+                        removeFromWatchlist(id);
+                        refresh();
+                    });
+                });
+
+                watchlistGrid.querySelectorAll('.btn-fav').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const id = Number(e.target.dataset.id);
+                        const movie = getWatchlist().find(m => m.id == id);
+                        if (movie) {
+                            addToFavorites(movie);
+                            e.target.textContent = 'Favorited';
+                            e.target.disabled = true;
+                        }
+                    });
+                });
+            }
+
+            refresh();
+        });
+    </script>
+</body>
+
+</html>

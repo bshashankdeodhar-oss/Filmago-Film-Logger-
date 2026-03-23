@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CineLog | User Profile</title>
+    <title>Profile | Filmago</title>
+    <script src="auth.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -61,7 +62,7 @@
             class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-4 bg-[#050505]/90 backdrop-blur-md border-b border-white/5">
             <div class="container mx-auto px-6 flex items-center justify-between">
                 <a href="index.html" class="text-2xl font-bold tracking-tighter font-serif">
-                    CineLog.
+                    Filmago.
                 </a>
 
                 <div class="hidden md:flex items-center space-x-8">
@@ -88,36 +89,43 @@
             <div
                 class="container mx-auto px-6 max-w-5xl relative z-10 flex flex-col md:flex-row items-center md:items-start gap-8">
                 <!-- Avatar -->
-                <div
-                    class="w-32 h-32 md:w-40 md:h-40 shrink-0 rounded-full overflow-hidden border-4 border-white/10 shadow-[0_0_30px_rgba(255,69,0,0.2)]">
-                    <img src="https://ui-avatars.com/api/?name=User&background=111&color=fff&size=200" alt="User Avatar"
-                        class="w-full h-full object-cover">
+                <div id="avatar-container"
+                    class="relative group cursor-pointer w-32 h-32 md:w-40 md:h-40 shrink-0 rounded-full overflow-hidden border-4 border-white/10 shadow-[0_0_30px_rgba(255,69,0,0.2)]">
+                    <img id="profile-avatar"
+                        src="https://ui-avatars.com/api/?name=User&background=111&color=fff&size=200" alt="User Avatar"
+                        class="w-full h-full object-cover group-hover:opacity-50 transition-opacity">
+                    <div
+                        class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                        <iconify-icon icon="lucide:camera" class="text-white text-2xl drop-shadow-lg"></iconify-icon>
+                    </div>
                 </div>
+                <input type="file" id="avatar-input" accept="image/*" class="hidden">
 
                 <!-- Info -->
                 <div class="flex-grow text-center md:text-left">
                     <div class="flex flex-col md:flex-row md:items-center gap-4 mb-2">
-                        <h1 class="text-3xl md:text-5xl font-serif">Cinephile99</h1>
-                        <button
+                        <h1 id="profile-name" class="text-3xl md:text-5xl font-serif">Cinephile99</h1>
+                        <button id="btn-edit-profile"
                             class="mx-auto md:mx-0 px-6 py-1.5 rounded-full border border-white/20 text-sm font-medium hover:bg-white hover:text-black transition-colors shadow-lg">Edit
                             Profile</button>
                     </div>
-                    <p class="text-gray-400 mb-6 font-light max-w-lg mx-auto md:mx-0 leading-relaxed">Watching the
+                    <p id="profile-bio" class="text-gray-400 mb-6 font-light max-w-lg mx-auto md:mx-0 leading-relaxed">
+                        Watching the
                         shadows dance on the wall since 1999. In pursuit of the perfect tracking shot. Obsessed with
                         A24, Fincher, and anything shot on 35mm.</p>
 
                     <!-- Stats Grid -->
                     <div class="flex flex-wrap justify-center md:justify-start gap-8 md:gap-12">
                         <div>
-                            <p class="text-3xl font-serif text-white">402</p>
+                            <p id="stat-films" class="text-3xl font-serif text-white">0</p>
                             <p class="text-xs uppercase tracking-widest text-[#FF4500] font-bold mt-1">Films</p>
                         </div>
                         <div>
-                            <p class="text-3xl font-serif text-white">45</p>
+                            <p id="stat-year" class="text-3xl font-serif text-white">0</p>
                             <p class="text-xs uppercase tracking-widest text-[#FF4500] font-bold mt-1">This Year</p>
                         </div>
                         <div>
-                            <p class="text-3xl font-serif text-white">128</p>
+                            <p id="stat-reviews" class="text-3xl font-serif text-white">0</p>
                             <p class="text-xs uppercase tracking-widest text-[#FF4500] font-bold mt-1">Reviews</p>
                         </div>
                     </div>
@@ -131,88 +139,10 @@
             <div class="flex-grow w-full lg:w-2/3">
                 <div class="flex items-center justify-between mb-8">
                     <h2 class="text-2xl font-serif">Recent Diary</h2>
-                    <a href="#" class="text-sm text-gray-500 hover:text-white transition-colors">View Diary
-                        <iconify-icon icon="lucide:arrow-right" class="inline align-middle"></iconify-icon></a>
                 </div>
 
-                <div class="space-y-6">
-                    <!-- Diary Item 1 -->
-                    <div class="flex gap-4 group">
-                        <a href="details.html?id=335984" data-id="335984"
-                            class="w-20 shrink-0 poster-wrapper rounded-md overflow-hidden aspect-[2/3] border border-white/10 relative tmdb-hydrate">
-                            <img src="https://image.tmdb.org/t/p/w200/gajva2L0rPYkEWjzgFlBXCAVBE5.jpg" alt="Poster"
-                                class="w-full h-full object-cover">
-                            <div
-                                class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                <iconify-icon icon="lucide:eye" class="text-white text-xl"></iconify-icon>
-                            </div>
-                        </a>
-                        <div class="flex flex-col py-1 flex-grow border-b border-white/5 pb-6">
-                            <div class="flex items-start justify-between mb-1">
-                                <div>
-                                    <h3 class="font-serif text-lg text-white hover:text-[#FF4500] transition-colors"><a
-                                            href="details.html?id=335984" class="tmdb-title">Blade Runner 2049</a> <span
-                                            class="text-gray-500 text-sm font-sans mx-1 tmdb-year">2017</span></h3>
-                                </div>
-                                <span class="text-xs text-gray-500 font-mono">Today</span>
-                            </div>
-
-                            <div class="flex items-center gap-2 mb-3">
-                                <iconify-icon icon="lucide:heart" class="text-red-500 text-sm"
-                                    icon="mingcute:heart-fill"></iconify-icon>
-                                <div class="flex gap-0.5 text-[#FF4500] text-xs">
-                                    <iconify-icon icon="lucide:star"></iconify-icon>
-                                    <iconify-icon icon="lucide:star"></iconify-icon>
-                                    <iconify-icon icon="lucide:star"></iconify-icon>
-                                    <iconify-icon icon="lucide:star"></iconify-icon>
-                                    <iconify-icon icon="lucide:star" class="text-gray-700"></iconify-icon>
-                                </div>
-                                <span
-                                    class="bg-white/10 px-2 py-0.5 rounded text-[10px] text-white/70 tracking-wider">REWATCH</span>
-                            </div>
-
-                            <p class="text-gray-400 text-sm font-light leading-relaxed mb-4">
-                                Third time watching this and Deakins' work continues to absolutely floor me. The water
-                                reflections in the Wallace building scene alone belong in a museum. Still processing the
-                                ending.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Diary Item 2 -->
-                    <div class="flex gap-4 group">
-                        <a href="details.html?id=792307" data-id="792307"
-                            class="w-20 shrink-0 poster-wrapper rounded-md overflow-hidden aspect-[2/3] border border-white/10 relative tmdb-hydrate">
-                            <img src="https://image.tmdb.org/t/p/w200/kCGlIMHnOm8PhnOIdXPr1jxW2n2.jpg" alt="Poster"
-                                class="w-full h-full object-cover">
-                        </a>
-                        <div class="flex flex-col py-1 flex-grow border-b border-white/5 pb-6">
-                            <div class="flex items-start justify-between mb-1">
-                                <div>
-                                    <h3 class="font-serif text-lg text-white hover:text-[#FF4500] transition-colors"><a
-                                            href="details.html?id=792307" class="tmdb-title">Poor Things</a> <span
-                                            class="text-gray-500 text-sm font-sans mx-1 tmdb-year">2023</span></h3>
-                                </div>
-                                <span class="text-xs text-gray-500 font-mono">Feb 28</span>
-                            </div>
-
-                            <div class="flex items-center gap-2 mb-3">
-                                <iconify-icon icon="lucide:heart" class="text-red-500 text-sm"
-                                    icon="mingcute:heart-fill"></iconify-icon>
-                                <div class="flex gap-0.5 text-[#FF4500] text-xs">
-                                    <iconify-icon icon="lucide:star"></iconify-icon>
-                                    <iconify-icon icon="lucide:star"></iconify-icon>
-                                    <iconify-icon icon="lucide:star"></iconify-icon>
-                                    <iconify-icon icon="lucide:star"></iconify-icon>
-                                    <iconify-icon icon="lucide:star"></iconify-icon>
-                                </div>
-                            </div>
-                            <p class="text-gray-400 text-sm font-light leading-relaxed mb-4">
-                                Emma Stone gave the performance of a lifetime. The production design was absurdly
-                                creative — it felt like stepping into an elaborate moving painting. Masterpiece.
-                            </p>
-                        </div>
-                    </div>
+                <div class="space-y-6" id="diary-container">
+                    <!-- Populated by JS -->
                 </div>
             </div>
 
@@ -221,75 +151,18 @@
                 <div class="mb-12">
                     <div class="flex items-center justify-between mb-6">
                         <h2 class="text-sm uppercase tracking-[0.2em] font-bold text-gray-500">Favorite Films</h2>
-                        <button class="text-gray-500 hover:text-white"><iconify-icon icon="lucide:edit-2"
-                                class="text-sm"></iconify-icon></button>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-4">
-                        <a href="details.html?id=872585" data-id="872585"
-                            class="poster-wrapper block rounded-lg overflow-hidden border border-white/10 shadow-lg aspect-[2/3] relative group tmdb-hydrate-card">
-                            <img src="https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg"
-                                class="w-full h-full object-cover" alt="Oppenheimer">
-                            <div
-                                class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
-                                <span class="text-xs text-white uppercase tracking-wider font-bold">Oppenheimer</span>
-                            </div>
-                        </a>
-                        <a href="details.html?id=438631" data-id="438631"
-                            class="poster-wrapper block rounded-lg overflow-hidden border border-white/10 shadow-lg aspect-[2/3] relative group tmdb-hydrate-card">
-                            <img src="https://image.tmdb.org/t/p/w500/d5NXSklXo0qyIYkgV94XAgMIckC.jpg"
-                                class="w-full h-full object-cover" alt="Dune">
-                            <div
-                                class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
-                                <span class="text-xs text-white uppercase tracking-wider font-bold">Dune</span>
-                            </div>
-                        </a>
-                        <a href="details.html?id=1160164" data-id="1160164"
-                            class="poster-wrapper block rounded-lg overflow-hidden border border-white/10 shadow-lg aspect-[2/3] relative group tmdb-hydrate-card">
-                            <img src="https://image.tmdb.org/t/p/w500/k3waqVXSnvCZWfJYNtdamTgTtTA.jpg"
-                                class="w-full h-full object-cover" alt="Past Lives">
-                            <div
-                                class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
-                                <span class="text-xs text-white uppercase tracking-wider font-bold">Past Lives</span>
-                            </div>
-                        </a>
-                        <a href="details.html?id=467244" data-id="467244"
-                            class="poster-wrapper block rounded-lg overflow-hidden border border-white/10 shadow-lg aspect-[2/3] relative group tmdb-hydrate-card">
-                            <img src="https://image.tmdb.org/t/p/w500/A31lX5xL7Nlqgq6UaM5S0bBXX7a.jpg"
-                                class="w-full h-full object-cover" alt="Zone of Interest">
-                            <div
-                                class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
-                                <span class="text-xs text-white uppercase tracking-wider font-bold">Zone of
-                                    Interest</span>
-                            </div>
-                        </a>
-                    </div>
+                    <div id="favorites-grid" class="grid grid-cols-2 gap-4"></div>
                 </div>
 
                 <!-- Watchlist Teaser -->
                 <div>
                     <div class="flex items-center justify-between mb-6">
                         <h2 class="text-sm uppercase tracking-[0.2em] font-bold text-gray-500">Watchlist Queue</h2>
-                        <a href="#" class="text-sm text-[#FF4500] hover:text-white">See All</a>
+                        <a href="watchlist.html" class="text-sm text-[#FF4500] hover:text-white">See All</a>
                     </div>
-                    <div class="bg-[#111] rounded-xl border border-white/5 p-4 space-y-3">
-                        <div class="flex items-center gap-3">
-                            <img src="https://image.tmdb.org/t/p/w92/1pdfLvkbY9ohJlCjQH2TDpiD98.jpg"
-                                class="w-8 aspect-[2/3] object-cover rounded shadow" alt="">
-                            <div>
-                                <h4 class="text-sm font-serif text-white">Dune: Part Two</h4>
-                                <p class="text-[10px] text-gray-500 uppercase tracking-widest">Added 2d ago</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <img src="https://image.tmdb.org/t/p/w92/qJ2tW6WMUDux911r6m7haRef0WH.jpg"
-                                class="w-8 aspect-[2/3] object-cover rounded shadow" alt="">
-                            <div>
-                                <h4 class="text-sm font-serif text-white">The Dark Knight</h4>
-                                <p class="text-[10px] text-gray-500 uppercase tracking-widest">Added 1w ago</p>
-                            </div>
-                        </div>
-                    </div>
+                    <div id="watchlist-teaser" class="bg-[#111] rounded-xl border border-white/5 p-4 space-y-3"></div>
                 </div>
 
             </div>
@@ -301,22 +174,162 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Hydrate diary list
-            document.querySelectorAll('.tmdb-hydrate').forEach(async (el) => {
-                const id = el.getAttribute('data-id');
-                const movie = await getMovieDetailsAPI(id);
-                if (movie) {
-                    const img = el.querySelector('img');
-                    if (img) img.src = movie.poster;
+            const diary = getDiary();
+            const diaryContainer = document.getElementById('diary-container');
+            const currentYear = new Date().getFullYear();
 
-                    // The parent wrapper has the title and year elsewhere, so we find it:
-                    const wrapper = el.parentElement;
-                    const title = wrapper.querySelector('.tmdb-title');
-                    const year = wrapper.querySelector('.tmdb-year');
+            // Profile hydration
+            const profileData = getProfile();
+            document.getElementById('profile-name').textContent = profileData.name;
+            document.getElementById('profile-bio').textContent = profileData.bio;
+            const profileAvatar = document.getElementById('profile-avatar');
+            if (profileAvatar) profileAvatar.src = profileData.avatar;
 
-                    if (title) title.textContent = movie.title;
-                    if (year) year.textContent = movie.year;
+            // Handle Avatar Upload
+            const avatarContainer = document.getElementById('avatar-container');
+            const avatarInput = document.getElementById('avatar-input');
+
+            if (avatarContainer && avatarInput) {
+                avatarContainer.addEventListener('click', () => {
+                    avatarInput.click();
+                });
+
+                avatarInput.addEventListener('change', (e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function (event) {
+                            const base64String = event.target.result;
+                            profileAvatar.src = base64String;
+
+                            // Save to profile and trigger optimistic sync
+                            const currentProfile = getProfile();
+                            currentProfile.avatar = base64String;
+                            saveProfile(currentProfile);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+
+            // Stats
+            document.getElementById('stat-films').textContent = diary.length;
+            document.getElementById('stat-year').textContent = diary.filter(d => d.date.startsWith(currentYear)).length;
+            document.getElementById('stat-reviews').textContent = diary.filter(d => d.review && d.review.length > 0).length;
+
+            // Favorite / watchlist summary
+            const watchlist = getWatchlist();
+            const favoritesGrid = document.getElementById('favorites-grid');
+            const watchlistTeaser = document.getElementById('watchlist-teaser');
+
+            function renderFavorites() {
+                const favorites = getFavorites();
+                favoritesGrid.innerHTML = favorites.length > 0 ? '' : '<p class="text-gray-500 col-span-2">No favorites yet. Mark favorites from search or details.</p>';
+                favorites.forEach(movie => {
+                    const item = document.createElement('div');
+                    item.className = 'poster-wrapper block rounded-lg overflow-hidden border border-white/10 shadow-lg aspect-[2/3] relative group cursor-pointer';
+                    item.innerHTML = `
+                        <img src="${movie.poster}" class="w-full h-full object-cover" alt="${movie.title}">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
+                            <span class="text-xs text-white uppercase tracking-wider font-bold truncate">${movie.title}</span>
+                        </div>
+                        <button class="remove-fav-btn absolute top-2 right-2 w-7 h-7 bg-black/60 hover:bg-red-600 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all z-10" title="Remove from favorites">
+                            <iconify-icon icon="lucide:x" class="text-white text-sm"></iconify-icon>
+                        </button>
+                    `;
+
+                    item.addEventListener('click', () => {
+                        window.location.href = 'details.html?id=' + movie.id;
+                    });
+
+                    const removeBtn = item.querySelector('.remove-fav-btn');
+                    removeBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        removeFromFavorites(movie.id);
+                        renderFavorites();
+                    });
+
+                    favoritesGrid.appendChild(item);
+                });
+            }
+            renderFavorites();
+
+            watchlistTeaser.innerHTML = watchlist.length > 0 ? '' : '<p class="text-gray-500">Your watchlist is empty. Add films to start planning your queue.</p>';
+            watchlist.forEach(movie => {
+                const block = document.createElement('div');
+                block.className = 'flex items-center gap-3';
+                block.innerHTML = `
+                    <img src="${movie.poster}" class="w-8 aspect-[2/3] object-cover rounded shadow" alt="${movie.title}">
+                    <div>
+                        <h4 class="text-sm font-serif text-white">${movie.title}</h4>
+                        <p class="text-[10px] text-gray-500 uppercase tracking-widest">${movie.year || ''}</p>
+                    </div>
+                `;
+                watchlistTeaser.appendChild(block);
+            });
+
+            document.getElementById('btn-edit-profile').addEventListener('click', () => {
+                const name = prompt('Enter your display name:', profileData.name);
+                const bio = prompt('Write a short bio:', profileData.bio);
+                if (name !== null && bio !== null) {
+                    const updated = { ...profileData, name: name.trim() || 'Cinephile99', bio: bio.trim() || profileData.bio };
+                    saveProfile(updated);
+                    profileData.name = updated.name;
+                    profileData.bio = updated.bio;
+                    document.getElementById('profile-name').textContent = updated.name;
+                    document.getElementById('profile-bio').textContent = updated.bio;
                 }
             });
+
+            if (diary.length === 0) {
+                diaryContainer.innerHTML = `<p class="text-gray-500">No films logged yet. Search for a film to start your diary.</p>`;
+            } else {
+                diaryContainer.innerHTML = '';
+                diary.forEach(entry => {
+                    const starsHTML = Array(5).fill(0).map((_, i) =>
+                        `<iconify-icon icon="lucide:star" class="${i < entry.rating ? 'text-[#FF4500]' : 'text-gray-700'}"></iconify-icon>`
+                    ).join('');
+
+                    const heartHTML = entry.liked ?
+                        `<iconify-icon icon="mingcute:heart-fill" class="text-red-500 text-sm"></iconify-icon>` : '';
+
+                    diaryContainer.innerHTML += `
+                        <div class="flex gap-4 group">
+                            <a href="details.html?id=${entry.movie.id}" data-id="${entry.movie.id}"
+                                class="w-20 shrink-0 poster-wrapper rounded-md overflow-hidden aspect-[2/3] border border-white/10 relative">
+                                <img src="${entry.movie.poster}" alt="Poster"
+                                    class="w-full h-full object-cover">
+                                <div
+                                    class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                    <iconify-icon icon="lucide:eye" class="text-white text-xl"></iconify-icon>
+                                </div>
+                            </a>
+                            <div class="flex flex-col py-1 flex-grow border-b border-white/5 pb-6">
+                                <div class="flex items-start justify-between mb-1">
+                                    <div>
+                                        <h3 class="font-serif text-lg text-white hover:text-[#FF4500] transition-colors"><a
+                                                href="details.html?id=${entry.movie.id}" class="tmdb-title">${entry.movie.title}</a> <span
+                                                class="text-gray-500 text-sm font-sans mx-1 tmdb-year">${entry.movie.year}</span></h3>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-xs text-gray-500 font-mono">${new Date(entry.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>
+                                        <button onclick="if(confirm('Delete this diary entry?')) { removeDiaryEntry('${entry.logDate}'); window.location.reload(); }" class="text-gray-600 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity" title="Delete entry"><iconify-icon icon="lucide:trash-2"></iconify-icon></button>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center gap-2 mb-3">
+                                    ${heartHTML}
+                                    <div class="flex gap-0.5 text-[#FF4500] text-xs">
+                                        ${starsHTML}
+                                    </div>
+                                </div>
+
+                                ${entry.review ? `<p class="text-gray-400 text-sm font-light leading-relaxed mb-4">${entry.review}</p>` : ''}
+                            </div>
+                        </div>
+                    `;
+                });
+            }
 
             // Hydrate favorite grid cards
             document.querySelectorAll('.tmdb-hydrate-card').forEach(async (card) => {

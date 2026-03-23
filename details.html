@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CineLog | Blade Runner 2049</title>
+    <title>Filmago | Blade Runner 2049</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -87,7 +87,7 @@
             class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-4 bg-transparent hover:bg-[#050505]/90 hover:backdrop-blur-md group border-b border-transparent hover:border-white/5">
             <div class="container mx-auto px-6 flex items-center justify-between">
                 <a href="index.html" class="text-2xl font-bold tracking-tighter font-serif drop-shadow-lg">
-                    CineLog.
+                    Filmago.
                 </a>
 
                 <div class="hidden md:flex items-center space-x-8 drop-shadow-md">
@@ -95,6 +95,8 @@
                         class="text-sm text-gray-300 hover:text-white transition-colors duration-300">Search</a>
                     <a href="profile.html"
                         class="text-sm text-gray-300 hover:text-white transition-colors duration-300">Profile</a>
+                    <a href="watchlist.html"
+                        class="text-sm text-gray-300 hover:text-white transition-colors duration-300">Watchlist</a>
                     <a href="timeline.html"
                         class="text-sm text-gray-300 hover:text-white transition-colors duration-300">Timeline</a>
                 </div>
@@ -126,10 +128,21 @@
                             alt="Poster" class="w-full h-full object-cover">
                     </div>
 
-                    <button
-                        class="w-full py-3 md:py-4 bg-[#FF4500] hover:bg-orange-600 text-white rounded-lg font-medium tracking-wide transition-all shadow-lg hover:shadow-[#FF4500]/20 flex justify-center items-center gap-2 mb-4">
-                        <iconify-icon icon="lucide:check" class="text-xl"></iconify-icon> Logged
-                    </button>
+                    <div class="flex flex-col gap-3 mb-4">
+                        <button id="btn-open-log"
+                            class="w-full py-3 md:py-4 bg-white/5 border border-white/10 hover:bg-[#FF4500] text-white rounded-lg font-medium tracking-wide transition-all shadow-lg hover:shadow-[#FF4500]/20 flex justify-center items-center gap-2">
+                            <iconify-icon icon="lucide:plus" class="text-xl"></iconify-icon> <span id="log-btn-text">Log
+                                Film</span>
+                        </button>
+                        <div class="flex gap-2">
+                            <button id="btn-favorite"
+                                class="w-1/2 py-2 bg-white/5 border border-white/10 hover:bg-[#FF4500] hover:text-black text-white rounded-lg font-medium transition-colors">Add
+                                to Favorites</button>
+                            <button id="btn-watchlist"
+                                class="w-1/2 py-2 bg-white/5 border border-white/10 hover:bg-[#FF4500] hover:text-black text-white rounded-lg font-medium transition-colors">Add
+                                to Watchlist</button>
+                        </div>
+                    </div>
 
                     <div class="flex items-center gap-2 text-sm text-gray-400 justify-center">
                         <iconify-icon icon="lucide:star" class="text-[#FF4500]"></iconify-icon>
@@ -328,6 +341,96 @@
 
     </div>
 
+    <!-- Log Film Modal -->
+    <div id="log-modal"
+        class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/80 backdrop-blur-md p-4 overflow-y-auto">
+        <div class="bg-[#111] border border-white/10 rounded-2xl max-w-2xl w-full shadow-2xl overflow-hidden my-auto transform scale-95 opacity-0 transition-all duration-300"
+            id="log-modal-content">
+
+            <!-- Modal Header with Movie Banner -->
+            <div class="relative h-48 bg-gray-900 border-b border-white/5">
+                <img id="modal-backdrop" src="" class="w-full h-full object-cover opacity-30 mix-blend-screen"
+                    alt="Backdrop">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#111] to-transparent"></div>
+                <button id="close-modal"
+                    class="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/50 flex items-center justify-center hover:bg-white/10 transition-colors">
+                    <iconify-icon icon="lucide:x" class="text-white"></iconify-icon>
+                </button>
+
+                <div class="absolute -bottom-16 left-8 flex items-end gap-6">
+                    <img id="modal-poster" src=""
+                        class="w-24 md:w-32 aspect-[2/3] object-cover rounded-lg shadow-2xl border border-white/10"
+                        alt="Poster">
+                    <div class="pb-16 md:pb-6 relative z-10 w-full pr-8">
+                        <h2 id="modal-title"
+                            class="text-2xl md:text-4xl font-serif font-medium leading-tight mb-1 drop-shadow-md">Movie
+                            Title</h2>
+                        <p id="modal-year" class="text-gray-400 text-sm">2024</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Form Area -->
+            <div class="p-8 pt-20">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Left Col: Rating & Date -->
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-2 font-medium">Your Rating</label>
+                            <div class="flex gap-1 star-rating group" id="modal-rating">
+                                <iconify-icon data-val="1" icon="lucide:star"
+                                    class="text-2xl text-gray-600 cursor-pointer"></iconify-icon>
+                                <iconify-icon data-val="2" icon="lucide:star"
+                                    class="text-2xl text-gray-600 cursor-pointer"></iconify-icon>
+                                <iconify-icon data-val="3" icon="lucide:star"
+                                    class="text-2xl text-gray-600 cursor-pointer"></iconify-icon>
+                                <iconify-icon data-val="4" icon="lucide:star"
+                                    class="text-2xl text-gray-600 cursor-pointer"></iconify-icon>
+                                <iconify-icon data-val="5" icon="lucide:star"
+                                    class="text-2xl text-gray-600 cursor-pointer"></iconify-icon>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-2 font-medium">Date Watched</label>
+                            <div class="relative">
+                                <iconify-icon icon="lucide:calendar"
+                                    class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"></iconify-icon>
+                                <input type="date" id="modal-date"
+                                    class="w-full bg-[#1a1a1a] border border-white/5 rounded-lg pl-10 pr-4 py-2.5 text-white focus:outline-none focus:border-[#FF4500] text-sm [color-scheme:dark]">
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3">
+                            <button id="btn-like"
+                                class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:border-red-500 hover:text-red-500 transition-colors group">
+                                <iconify-icon icon="lucide:heart"
+                                    class="text-gray-500 group-hover:text-red-500 transition-colors"></iconify-icon>
+                            </button>
+                            <span class="text-sm text-gray-500">Like this film?</span>
+                        </div>
+                    </div>
+
+                    <!-- Right Col: Review -->
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-2 font-medium">Review (Optional)</label>
+                        <textarea id="modal-review" rows="6" placeholder="Write your thoughts..."
+                            class="w-full bg-[#1a1a1a] border border-white/5 rounded-xl p-4 text-white focus:outline-none focus:border-[#FF4500] resize-none text-sm placeholder-gray-600 leading-relaxed"></textarea>
+                    </div>
+                </div>
+
+                <div class="mt-8 pt-6 border-t border-white/5 flex gap-4 justify-end">
+                    <button id="cancel-log"
+                        class="px-6 py-2.5 rounded-lg text-sm text-gray-400 hover:text-white transition-colors">Cancel</button>
+                    <button id="save-log"
+                        class="px-8 py-2.5 rounded-lg bg-[#FF4500] hover:bg-orange-600 text-white text-sm font-medium transition-colors shadow-[0_0_15px_rgba(255,69,0,0.3)] hover:shadow-[0_0_20px_rgba(255,69,0,0.5)]">
+                        Save to Diary
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="movies.js"></script>
     <script src="tmdb.js"></script>
     <script>
@@ -346,7 +449,7 @@
 
             if (movie) {
                 // Update basic text
-                document.title = `CineLog | ${movie.title}`;
+                document.title = `Filmago | ${movie.title}`;
                 document.getElementById('movie-title').textContent = movie.title;
                 document.getElementById('movie-year').textContent = movie.year;
                 document.getElementById('movie-director').textContent = movie.director;
@@ -375,6 +478,165 @@
                     });
                 }
             }
+
+            // Check if already logged
+            const diary = getDiary();
+            const existingLog = diary.find(entry => entry.movie.id == movie.id);
+            const favBtn = document.getElementById('btn-favorite');
+            const watchBtn = document.getElementById('btn-watchlist');
+
+            function updateDetailButtons() {
+                if (existingLog) {
+                    const logBtn = document.getElementById('btn-open-log');
+                    logBtn.classList.add('bg-[#FF4500]', 'border-[#FF4500]');
+                    logBtn.classList.remove('bg-white/5', 'border-white/10');
+                    logBtn.innerHTML = `<iconify-icon icon="lucide:check" class="text-xl"></iconify-icon> <span id="log-btn-text">Logged</span>`;
+                }
+                if (isFavorite(movie.id)) {
+                    favBtn.textContent = 'Favorited';
+                    favBtn.classList.replace('bg-white/5', 'bg-[#FF4500]');
+                    favBtn.classList.replace('text-white', 'text-black');
+                    favBtn.disabled = true;
+                }
+                if (isInWatchlist(movie.id)) {
+                    watchBtn.textContent = 'In Watchlist';
+                    watchBtn.classList.replace('bg-white/5', 'bg-[#FF4500]');
+                    watchBtn.classList.replace('text-white', 'text-black');
+                    watchBtn.disabled = true;
+                }
+            }
+
+            updateDetailButtons();
+
+            favBtn.addEventListener('click', () => {
+                addToFavorites(movie);
+                updateDetailButtons();
+            });
+            watchBtn.addEventListener('click', () => {
+                addToWatchlist(movie);
+                updateDetailButtons();
+            });
+
+            // Setup Modal open logic
+            document.getElementById('btn-open-log').addEventListener('click', () => {
+                openModal(movie, existingLog);
+            });
+        });
+
+        // --- Modal & Rating Logic (Copied from search.html) ---
+        let currentModalMovie = null;
+        let currentRating = 0;
+        let isLiked = false;
+
+        document.getElementById('modal-date').valueAsDate = new Date();
+
+        const stars = document.querySelectorAll('#modal-rating iconify-icon');
+        stars.forEach(star => {
+            star.addEventListener('mouseenter', () => highlightStars(parseInt(star.getAttribute('data-val'))));
+            star.addEventListener('mouseleave', () => highlightStars(currentRating));
+            star.addEventListener('click', () => {
+                currentRating = parseInt(star.getAttribute('data-val'));
+                highlightStars(currentRating);
+            });
+        });
+
+        function highlightStars(count) {
+            stars.forEach(s => {
+                const val = parseInt(s.getAttribute('data-val'));
+                if (val <= count) {
+                    s.classList.add('active', 'text-[#FF4500]');
+                    s.classList.remove('text-gray-600');
+                    s.setAttribute('icon', 'lucide:star');
+                } else {
+                    s.classList.remove('active', 'text-[#FF4500]');
+                    s.classList.add('text-gray-600');
+                }
+            });
+        }
+
+        const btnLike = document.getElementById('btn-like');
+        btnLike.addEventListener('click', () => {
+            isLiked = !isLiked;
+            btnLike.classList.toggle('border-red-500');
+            btnLike.classList.toggle('bg-red-500/10');
+            const icon = btnLike.querySelector('iconify-icon');
+            if (isLiked) {
+                icon.classList.remove('text-gray-500');
+                icon.classList.add('text-red-500');
+                icon.setAttribute('icon', 'mingcute:heart-fill');
+            } else {
+                icon.classList.add('text-gray-500');
+                icon.classList.remove('text-red-500');
+                icon.setAttribute('icon', 'lucide:heart');
+            }
+        });
+
+        const modal = document.getElementById('log-modal');
+        const modalContent = document.getElementById('log-modal-content');
+
+        function openModal(movie, existingLog) {
+            currentModalMovie = movie;
+            document.getElementById('modal-title').textContent = movie.title;
+            document.getElementById('modal-year').textContent = movie.year;
+            document.getElementById('modal-poster').src = movie.poster;
+            document.getElementById('modal-backdrop').src = movie.backdrop || movie.poster;
+
+            if (existingLog) {
+                currentRating = existingLog.rating;
+                if (existingLog.liked !== isLiked) btnLike.click(); // toggle to correct state
+                document.getElementById('modal-date').value = existingLog.date;
+                document.getElementById('modal-review').value = existingLog.review;
+            } else {
+                currentRating = 0;
+                if (isLiked) btnLike.click(); // reset to false
+                document.getElementById('modal-date').valueAsDate = new Date();
+                document.getElementById('modal-review').value = '';
+            }
+            highlightStars(currentRating);
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+
+        document.getElementById('close-modal').addEventListener('click', closeModal);
+        document.getElementById('cancel-log').addEventListener('click', closeModal);
+        document.getElementById('save-log').addEventListener('click', () => {
+            if (!currentModalMovie) return;
+            const dateStr = document.getElementById('modal-date').value;
+            const reviewText = document.getElementById('modal-review').value;
+
+            saveToDiary(currentModalMovie, currentRating, isLiked, dateStr, reviewText);
+
+            const saveBtn = document.getElementById('save-log');
+            const originalText = saveBtn.textContent;
+            saveBtn.textContent = "Saved!";
+
+            // update UI Button immediately
+            const logBtn = document.getElementById('btn-open-log');
+            logBtn.classList.add('bg-[#FF4500]', 'border-[#FF4500]');
+            logBtn.classList.remove('bg-white/5', 'border-white/10');
+            logBtn.innerHTML = `<iconify-icon icon="lucide:check" class="text-xl"></iconify-icon> <span id="log-btn-text">Logged</span>`;
+
+            setTimeout(() => {
+                saveBtn.textContent = originalText;
+                closeModal();
+            }, 600);
+        });
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
         });
     </script>
 </body>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CineLog | Search & Add</title>
+    <title>Filmago | Search & Add</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -103,7 +103,7 @@
             class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-4 bg-[#050505]/90 backdrop-blur-md border-b border-white/5">
             <div class="container mx-auto px-6 flex items-center justify-between">
                 <a href="index.html" class="text-2xl font-bold tracking-tighter font-serif">
-                    CineLog.
+                    Filmago.
                 </a>
 
                 <div class="hidden md:flex items-center space-x-8">
@@ -111,6 +111,8 @@
                         class="text-sm text-white hover:text-white transition-colors duration-300 border-b border-[#FF4500] pb-1">Search</a>
                     <a href="profile.html"
                         class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Profile</a>
+                    <a href="watchlist.html"
+                        class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Watchlist</a>
                     <a href="timeline.html"
                         class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Timeline</a>
                 </div>
@@ -141,18 +143,53 @@
                     </div>
                 </div>
 
-                <div class="flex flex-wrap gap-3 mt-6 justify-center">
-                    <button
-                        class="px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-xs text-gray-400 hover:text-white hover:bg-white/10 transition-colors">Trending</button>
-                    <button
-                        class="px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-xs text-gray-400 hover:text-white hover:bg-white/10 transition-colors">New
+                <div class="flex flex-wrap gap-3 mt-6 justify-center" id="search-filters">
+                    <button id="btn-filter-all" data-filter="all"
+                        class="filter-btn px-4 py-1.5 rounded-full border border-white/10 bg-[#FF4500] text-xs text-white hover:bg-[#FF4500] transition-colors">All
+                        / Relevance</button>
+                    <button id="btn-filter-trending" data-filter="trending"
+                        class="filter-btn px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-xs text-gray-400 hover:text-white hover:bg-white/10 transition-colors">Trending</button>
+                    <button id="btn-filter-new" data-filter="new"
+                        class="filter-btn px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-xs text-gray-400 hover:text-white hover:bg-white/10 transition-colors">New
                         Releases</button>
-                    <button
-                        class="px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-xs text-gray-400 hover:text-white hover:bg-white/10 transition-colors">A24
-                        Films</button>
-                    <button
-                        class="px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-xs text-gray-400 hover:text-white hover:bg-white/10 transition-colors">Highest
+                    <button id="btn-filter-highest" data-filter="highest"
+                        class="filter-btn px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-xs text-gray-400 hover:text-white hover:bg-white/10 transition-colors">Highest
                         Rated</button>
+                </div>
+
+                <div class="flex flex-wrap gap-4 mt-6 justify-center border-t border-white/5 pt-6"
+                    id="advanced-sort-controls">
+                    <select id="sort-select"
+                        class="bg-[#111] border border-white/10 text-white rounded-md px-3 py-1.5 focus:outline-none focus:border-[#FF4500] cursor-pointer text-sm">
+                        <option value="relevance">Sort: Relevance / Default</option>
+                        <option value="popularity-desc">Popularity</option>
+                        <option value="rating-desc">Highest Rated</option>
+                        <option value="year-desc">Newest First</option>
+                        <option value="runtime-desc">Longest Runtime</option>
+                    </select>
+
+                    <select id="filter-genre"
+                        class="bg-[#111] border border-white/10 text-white rounded-md px-3 py-1.5 focus:outline-none focus:border-[#FF4500] cursor-pointer text-sm">
+                        <option value="all">Any Genre</option>
+                        <option value="Action">Action</option>
+                        <option value="Comedy">Comedy</option>
+                        <option value="Drama">Drama</option>
+                        <option value="Horror">Horror</option>
+                        <option value="Science Fiction">Sci-Fi</option>
+                        <option value="Romance">Romance</option>
+                        <option value="Thriller">Thriller</option>
+                    </select>
+
+                    <select id="filter-provider"
+                        class="bg-[#111] border border-white/10 text-white rounded-md px-3 py-1.5 focus:outline-none focus:border-[#FF4500] cursor-pointer text-sm">
+                        <option value="all">Any Service</option>
+                        <option value="Netflix">Netflix</option>
+                        <option value="Amazon Prime Video">Amazon Prime</option>
+                        <option value="Disney Plus">Disney+</option>
+                        <option value="Hulu">Hulu</option>
+                        <option value="Max">Max</option>
+                        <option value="Apple TV Plus">Apple TV+</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -255,7 +292,7 @@
                 <div class="mt-8 pt-6 border-t border-white/5 flex gap-4 justify-end">
                     <button id="cancel-log"
                         class="px-6 py-2.5 rounded-lg text-sm text-gray-400 hover:text-white transition-colors">Cancel</button>
-                    <button
+                    <button id="save-log"
                         class="px-8 py-2.5 rounded-lg bg-[#FF4500] hover:bg-orange-600 text-white text-sm font-medium transition-colors shadow-[0_0_15px_rgba(255,69,0,0.3)] hover:shadow-[0_0_20px_rgba(255,69,0,0.5)]">
                         Save to Diary
                     </button>
@@ -326,8 +363,10 @@
         // Modal Logic
         const modal = document.getElementById('log-modal');
         const modalContent = document.getElementById('log-modal-content');
+        let currentModalMovie = null;
 
         function openModal(movie) {
+            currentModalMovie = movie;
             document.getElementById('modal-title').textContent = movie.title;
             document.getElementById('modal-year').textContent = movie.year;
             document.getElementById('modal-poster').src = movie.poster;
@@ -358,22 +397,107 @@
 
         document.getElementById('close-modal').addEventListener('click', closeModal);
         document.getElementById('cancel-log').addEventListener('click', closeModal);
+        document.getElementById('save-log').addEventListener('click', () => {
+            if (!currentModalMovie) return;
+            const dateStr = document.getElementById('modal-date').value;
+            const reviewText = document.getElementById('modal-review').value;
+
+            saveToDiary(currentModalMovie, currentRating, isLiked, dateStr, reviewText);
+
+            const saveBtn = document.getElementById('save-log');
+            const originalText = saveBtn.textContent;
+            saveBtn.textContent = "Saved!";
+            setTimeout(() => {
+                saveBtn.textContent = originalText;
+                closeModal();
+            }, 600);
+        });
         modal.addEventListener('click', (e) => {
             if (e.target === modal) closeModal();
         });
 
 
-        // Search Simulation Logic
+        // Search & Filter Logic
         const searchInput = document.getElementById('search-input');
         const searchSpinner = document.getElementById('search-spinner');
         const resultsContainer = document.getElementById('search-results');
         const emptyState = document.getElementById('empty-state');
         const resultsCountStr = document.getElementById('results-count');
 
-
-
         let typingTimer;
         const doneTypingInterval = 600;
+
+        let currentFilter = 'all';
+        let currentResults = []; // stores unmodified current results from input search
+        let currentCategoryResults = []; // stores results if fetching category directly
+
+        const sortSelect = document.getElementById('sort-select');
+        const filterGenre = document.getElementById('filter-genre');
+        const filterProvider = document.getElementById('filter-provider');
+
+        [sortSelect, filterGenre, filterProvider].forEach(el => el.addEventListener('change', () => {
+            applySortAndRender();
+        }));
+
+        // Filter Clicking
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const filter = btn.getAttribute('data-filter');
+                setFilterActive(filter);
+                const query = searchInput.value.trim();
+
+                // Clear advanced sorts if switching main category tabs
+                sortSelect.value = 'relevance';
+
+                if (query.length > 0) {
+                    // Sorting active search results
+                    applySortAndRender();
+                } else {
+                    // Fetch category directly as no query
+                    if (filter === 'all') {
+                        currentCategoryResults = [];
+                        renderResultsArray([]);
+                        emptyState.classList.remove('hidden');
+                    } else {
+                        fetchAndRenderCategory(filter);
+                    }
+                }
+            });
+        });
+
+        function setFilterActive(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-btn').forEach(b => {
+                b.classList.remove('bg-[#FF4500]', 'text-white');
+                b.classList.add('bg-white/5', 'text-gray-400');
+            });
+            const activeBtn = document.querySelector(`[data-filter="${filter}"]`);
+            activeBtn.classList.add('bg-[#FF4500]', 'text-white');
+            activeBtn.classList.remove('bg-white/5', 'text-gray-400');
+        }
+
+        async function fetchAndRenderCategory(category) {
+            searchSpinner.classList.remove('hidden');
+            emptyState.classList.add('hidden');
+            resultsContainer.innerHTML = '';
+            resultsCountStr.classList.add('hidden');
+
+            let results = [];
+            if (category === 'trending') results = await getTrendingMovies(15);
+            else if (category === 'new') results = await getNowPlayingMovies(15);
+            else if (category === 'highest') results = await getTopRatedMovies(15);
+
+            searchSpinner.classList.add('hidden');
+            if (results) {
+                currentCategoryResults = results;
+                currentResults = results;
+                applySortAndRender();
+                enrichAndReRender(results);
+            } else {
+                currentResults = [];
+                renderResultsArray([]);
+            }
+        }
 
         searchInput.addEventListener('input', () => {
             clearTimeout(typingTimer);
@@ -384,42 +508,126 @@
                 typingTimer = setTimeout(() => performSearch(query), doneTypingInterval);
             } else {
                 searchSpinner.classList.add('hidden');
-                resultsContainer.innerHTML = '';
-                emptyState.classList.remove('hidden');
-                resultsCountStr.classList.add('hidden');
+                // Revert to category if an active category filter exists
+                if (currentFilter !== 'all') {
+                    renderResultsArray(currentCategoryResults);
+                } else {
+                    resultsContainer.innerHTML = '';
+                    emptyState.classList.remove('hidden');
+                    resultsCountStr.classList.add('hidden');
+                }
             }
         });
 
         async function performSearch(query) {
-
-            // Try TMDB first
             let results = await searchTMDB(query);
-
             if (!results) {
-                console.log("TMDB Failed or no key. Fallback to mock DB search");
+                console.log("TMDB Failed. Fallback to mock DB search");
                 const q = query.toLowerCase();
                 results = mockDatabase.filter(m => m.title.toLowerCase().includes(q) || (m.director && m.director.toLowerCase().includes(q)));
             }
 
             searchSpinner.classList.add('hidden');
+
+            if (!results) results = [];
+            currentResults = results;
+            applySortAndRender();
+
+            // update header conditionally
+            if (results.length > 0) {
+                resultsCountStr.classList.remove('hidden');
+                resultsCountStr.textContent = `Showing ${results.length} result(s) for "${query}"`;
+            } else {
+                resultsCountStr.classList.add('hidden');
+            }
+
+            enrichAndReRender(results);
+        }
+
+        async function enrichAndReRender(baseResults) {
+            if (!baseResults || baseResults.length === 0) return;
+            // Fetch deeper info like runtime and streaming providers silently in the background
+            const enriched = await fetchExtendedDetails(baseResults);
+
+            // Check if user is still viewing the same list of movies
+            if (currentResults.length > 0 && currentResults[0].id === enriched[0].id) {
+                currentResults = enriched;
+                applySortAndRender(); // Silently sorts and injects new details
+            }
+        }
+
+        function applySortAndRender() {
+            let sorted = [...currentResults];
+
+            // 1. Filter by Genre
+            const genreField = filterGenre.value;
+            if (genreField !== 'all') {
+                sorted = sorted.filter(m => m.genre_ids && m.genre_ids.includes(parseInt(genreField)));
+            }
+
+            // 2. Filter by Provider
+            const providerField = filterProvider.value;
+            if (providerField !== 'all') {
+                sorted = sorted.filter(m => m.provider_ids && m.provider_ids.includes(parseInt(providerField)));
+            }
+
+            // 3. Apply Sort Hierarchy
+            const sortField = sortSelect.value;
+            let sortMethod = 'relevance';
+
+            if (sortField !== 'relevance') {
+                sortMethod = sortField;
+            } else if (currentFilter === 'trending') {
+                sortMethod = 'popularity.desc';
+            } else if (currentFilter === 'new') {
+                sortMethod = 'release_date.desc';
+            } else if (currentFilter === 'highest') {
+                sortMethod = 'vote_average.desc';
+            }
+
+            // Switch block to apply the chosen sortMethod
+            sorted.sort((a, b) => {
+                switch (sortMethod) {
+                    case 'popularity.desc':
+                        return (b.popularity || 0) - (a.popularity || 0);
+                    case 'release_date.desc':
+                        return new Date(b.release_date || '1900-01-01') - new Date(a.release_date || '1900-01-01');
+                    case 'release_date.asc':
+                        return new Date(a.release_date || '1900-01-01') - new Date(b.release_date || '1900-01-01');
+                    case 'vote_average.desc':
+                        const r1 = b.rating === 'N/A' ? 0 : parseFloat(b.rating);
+                        const r2 = a.rating === 'N/A' ? 0 : parseFloat(a.rating);
+                        return r1 - r2;
+                    case 'runtime.desc':
+                        return (b.runtime_mins || 0) - (a.runtime_mins || 0);
+                    case 'runtime.asc':
+                        return (a.runtime_mins || 999) - (b.runtime_mins || 999);
+                    default:
+                        return 0; // relevance or unknown
+                }
+            });
+
+            renderResultsArray(sorted);
+        }
+
+        function renderResultsArray(results) {
             emptyState.classList.add('hidden');
             resultsContainer.innerHTML = '';
 
             if (!results || results.length === 0) {
-                resultsContainer.innerHTML = `<div class="col-span-full py-12 text-center text-gray-500">No results found for "${query}"</div>`;
-                resultsCountStr.classList.add('hidden');
+                if (searchInput.value.trim() !== '') {
+                    resultsContainer.innerHTML = `<div class="col-span-full py-12 text-center text-gray-500">No results found.</div>`;
+                } else {
+                    emptyState.classList.remove('hidden');
+                }
                 return;
             }
-
-            resultsCountStr.classList.remove('hidden');
-            resultsCountStr.textContent = `Showing ${results.length} result(s) for "${query}"`;
 
             results.forEach((movie, index) => {
                 const card = document.createElement('div');
                 card.className = 'bg-[#111] border border-white/5 rounded-xl p-4 flex gap-4 movie-card cursor-pointer items-start';
                 card.style.animation = `fadeInUp ${0.1 * index}s ease forwards`;
 
-                // If TMDB didn't provide director it might be missing without credits call.
                 const directorText = movie.director ? ` • Directed by ${movie.director}` : '';
 
                 card.innerHTML = `
@@ -430,7 +638,13 @@
                         <a href="details.html?id=${movie.id}" class="text-xl font-serif text-white hover:text-[#FF4500] transition-colors leading-tight mb-1" onclick="event.stopPropagation()">${movie.title}</a>
                         <p class="text-sm text-gray-500 mb-2">${movie.year}${directorText}</p>
                         <p class="text-xs text-gray-400 line-clamp-2 leading-relaxed mb-4">${movie.desc}</p>
-                        <div class="mt-auto self-start">
+                        <div class="mt-auto self-start flex flex-wrap gap-2">
+                            <button class="favorite-btn px-3 py-1.5 bg-white/5 hover:bg-[#FF4500] hover:text-white border border-white/10 rounded-md text-xs font-medium transition-colors flex items-center gap-1" title="Add to favorites">
+                                <iconify-icon icon="lucide:heart" class="favorite-icon"></iconify-icon> Favorite
+                            </button>
+                            <button class="watchlist-btn px-3 py-1.5 bg-white/5 hover:bg-[#FF4500] hover:text-white border border-white/10 rounded-md text-xs font-medium transition-colors flex items-center gap-1" title="Add to watchlist">
+                                <iconify-icon icon="lucide:bookmark" class="watchlist-icon"></iconify-icon> Watchlist
+                            </button>
                             <button class="log-btn px-4 py-1.5 bg-white/5 hover:bg-[#FF4500] hover:text-white hover:border-[#FF4500] border border-white/10 rounded-md text-xs font-medium transition-colors flex items-center gap-2">
                                 <iconify-icon icon="lucide:plus"></iconify-icon> Log Film
                             </button>
@@ -438,8 +652,40 @@
                     </div>
                 `;
 
-                // Add Log functionality
+                // Add functionality
                 const logBtn = card.querySelector('.log-btn');
+                const favBtn = card.querySelector('.favorite-btn');
+                const watchBtn = card.querySelector('.watchlist-btn');
+
+                function updateButtons() {
+                    if (isFavorite(movie.id)) {
+                        favBtn.classList.remove('bg-white/5', 'border-white/10');
+                        favBtn.classList.add('bg-[#FF4500]', 'text-black', 'border-[#FF4500]');
+                        favBtn.innerHTML = '<iconify-icon icon="lucide:heart" class="text-black"></iconify-icon> Favorited';
+                        favBtn.disabled = true;
+                    }
+                    if (isInWatchlist(movie.id)) {
+                        watchBtn.classList.remove('bg-white/5', 'border-white/10');
+                        watchBtn.classList.add('bg-[#FF4500]', 'text-black', 'border-[#FF4500]');
+                        watchBtn.innerHTML = '<iconify-icon icon="lucide:bookmark" class="text-black"></iconify-icon> In Watchlist';
+                        watchBtn.disabled = true;
+                    }
+                }
+
+                updateButtons();
+
+                favBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    addToFavorites(movie);
+                    updateButtons();
+                });
+
+                watchBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    addToWatchlist(movie);
+                    updateButtons();
+                });
+
                 logBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
                     openModal(movie);
